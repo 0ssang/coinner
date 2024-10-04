@@ -15,6 +15,7 @@ services:
       - db
   db:
     image: mysql:5.7
+    platform: linux/x86_64
     environment:
       MYSQL_ROOT_PASSWORD: 1234
       MYSQL_DATABASE: coinner
