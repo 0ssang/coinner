@@ -1,27 +1,24 @@
 version: '3.8'
-
 services:
   app:
-    build: .
+    build: ./backend
     ports:
       - "3000:3000"
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
     environment:
       - NODE_ENV=development
-    env_file:
-      - .env
-    volumes:
-      - .:/usr/src/app
+      - MONGO_INITDB_ROOT_USERNAME=dev
+      - MONGO_INITDB_ROOT_PASSWORD=12345
     depends_on:
-      - db
-  db:
-    image: mysql:5.7
-    platform: linux/x86_64
-    environment:
-      MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: coinner
+      - mongo
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
     volumes:
-      - db_data:/var/lib/mysql
-      - ./db:/docker-entrypoint-initdb.d
+      - mongo-data:/data/db
 
 volumes:
-  db_data:
+  mongo-data:
