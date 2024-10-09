@@ -1,0 +1,78 @@
+/* /src/views/styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+#hero {
+    text-align: center;
+    padding: 50px 0;
+    background-color: #007bff;
+    color: #fff;
+}
+
+.logo {
+    color: #007bff;
+}
+/* 여백 공간을 스타일링 */
+#placeholder {
+    height: 200px; /* 원하는 높이로 조정 가능 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+    border: 1px dashed #ccc;
+    margin: 30px;
+    text-align: center;
+    color: #777;
+}
+
+/* Features 섹션을 페이지 하단으로 내림 */
+#features {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+    background-color: #fff;
+    margin-top: 30px;
+}
+
+.feature {
+    background: #e9ecef;
+    padding: 20px;
+    border-radius: 5px;
+    width: 30%;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.feature h2 a {
+    color: #333; /* 텍스트 색상 */
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+.feature h2 a:hover {
+    color: #007bff; /* 마우스 오버 시 색상 변경 */
+    text-decoration: underline; /* 마우스 오버 시 밑줄 추가 */
+}
+
