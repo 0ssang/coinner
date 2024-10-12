@@ -20,6 +20,7 @@
   "homepage": "https://github.com/0ssang/coinner#readme",
   "dependencies": {
     "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
     "express": "^4.21.0",
     "mongoose": "^8.7.0"
   },

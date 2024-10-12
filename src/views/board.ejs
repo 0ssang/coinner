@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 고정 헤더 -->
+    <header>
+        <nav>
+            <div class="logo">Coinner</div>
+            <ul class="nav-links">
+                <li><a href="/">홈</a></li>
+                <li><a href="/register">회원가입</a></li>
+                <li><a href="/login">로그인</a></li>
+                <li><a href="/support">고객센터</a></li>
+                <li><a href="/board">게시판</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- 게시판 제목 -->
+        <section id="board-title">
+            <h1>게시판</h1>
+        </section>
+
+        <!-- 검색창 -->
+        <section id="search-bar">
+            <input type="text" id="search" placeholder="게시글 검색...">
+            <button id="search-btn">검색</button>
+        </section>
+
+        <!-- 게시글 목록 테이블 -->
+        <section id="board-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>작성일자</th>
+                        <th>조회수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 서버에서 전달받은 posts 데이터를 사용하여 동적으로 게시글 렌더링 -->
+                    <% posts.forEach(function(post, index) { %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><a href="/board/<%= post._id %>"><%= post.title %></a></td>
+                        <td><%= post.author %></td>
+                        <td><%= post.createdAt.toLocaleDateString() %></td>
+                        <td><%= post.views %></td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 게시글 작성 버튼 -->
+        <div class="create-post-btn">
+            <a href="/create-post"><button id="create-post-btn">게시글 작성</button></a>
+        </div>
+    </main>
+</body>
+</html>
