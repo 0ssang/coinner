@@ -2,8 +2,8 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 
-// src 폴더 안의 config 폴더로 경로 변경
-const connectDB = require('./src/config/db'); 
+// 루트 밑에 config 폴더에 db.js 파일 생성
+const connectDB = require('./config/db'); 
 
 const app = express();
 

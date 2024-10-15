@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../../public/css/styles.css">
 </head>
+
 <body>
     <!-- 고정 헤더 -->
     <header>
@@ -48,22 +50,33 @@
                 <tbody>
                     <!-- 서버에서 전달받은 posts 데이터를 사용하여 동적으로 게시글 렌더링 -->
                     <% posts.forEach(function(post, index) { %>
-                    <tr>
-                        <td><%= index + 1 %></td>
-                        <td><a href="/board/<%= post._id %>"><%= post.title %></a></td>
-                        <td><%= post.author %></td>
-                        <td><%= post.createdAt.toLocaleDateString() %></td>
-                        <td><%= post.views %></td>
-                    </tr>
-                    <% }) %>
+                        <tr>
+                            <td>
+                                <%= index + 1 %>
+                            </td>
+                            <td><a href="/board/<%= post._id %>">
+                                    <%= post.title %>
+                                </a></td>
+                            <td>
+                                <%= post.author %>
+                            </td>
+                            <td>
+                                <%= post.createdAt.toLocaleDateString() %>
+                            </td>
+                            <td>
+                                <%= post.views %>
+                            </td>
+                        </tr>
+                        <% }) %>
                 </tbody>
             </table>
         </section>
 
         <!-- 게시글 작성 버튼 -->
         <div class="create-post-btn">
-            <a href="/create-post"><button id="create-post-btn">게시글 작성</button></a>
+            <a href="/board/create"><button id="create-post-btn">게시글 작성</button></a>
         </div>
     </main>
 </body>
+
 </html>
