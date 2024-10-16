@@ -21,6 +21,10 @@ const PostSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    views: { 
+        type: Number, 
+        default: 0 
+    },
     updatedAt: {
         type: Date,
         default: Date.now
