@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { create } = require('./postModel');
 const Schema = mongoose.Schema;
 
 const PostSchema = new Schema({
@@ -14,16 +13,15 @@ const PostSchema = new Schema({
     },
     author: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+        ref: 'User'
     },
     createdAt: {
         type: Date,
         default: Date.now
     },
-    views: { 
-        type: Number, 
-        default: 0 
+    views: {
+        type: Number,
+        default: 0
     },
     likes: [{
         type: Schema.Types.ObjectId,
@@ -40,21 +38,21 @@ const PostSchema = new Schema({
 });
 
 // 게시글이 저장되기 전에 현재 시간으로 업데이트
-PostSchema.pre('save', async function(next) {
+PostSchema.pre('save', async function (next) {
     this.updatedAt = Date.now();
     next();
 });
 
 // 조회수 증가 메서드
-PostSchema.methods.increaseViews = async function() {
+PostSchema.methods.increaseViews = async function () {
     this.views += 1;
     await this.save();
     return this;
 };
 
 // 좋아요 추가 메서드
-PostSchema.methods.addLike = async function(userId) {
-    if(!this.likes.includes(userId)) {
+PostSchema.methods.addLike = async function (userId) {
+    if (!this.likes.includes(userId)) {
         this.likes.push(userId);
         await this.save();
         return this;
@@ -63,9 +61,9 @@ PostSchema.methods.addLike = async function(userId) {
 }
 
 // 좋아요 취소 메서드
-PostSchema.methods.removeLike = async function(userId) {
+PostSchema.methods.removeLike = async function (userId) {
     const index = this.likes.indexOf(userId);
-    if(index > -1) {
+    if (index > -1) {
         // 좋아요 리스트에서 제거
         this.likes.splice(index, 1);
         await this.save();

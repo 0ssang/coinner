@@ -1,5 +1,5 @@
 // /src/controllers/postController.js
-const Post = require('../models/postModel');
+const Post = require('../models/post');
 
 // 게시글 목록 표시
 exports.getPosts = async (req, res) => {
