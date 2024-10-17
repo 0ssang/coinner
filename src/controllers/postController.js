@@ -1,5 +1,6 @@
 // /src/controllers/postController.js
 const Post = require('../models/post');
+const postService = require('../services/postService');
 
 // 게시글 목록 표시
 exports.getPosts = async (req, res) => {
@@ -28,8 +29,9 @@ exports.getPostById = async (req, res) => {
 exports.createPost = async (req, res) => {
     try {
         const { title, content } = req.body;
-        const newPost = new Post({ title, content });
-        await newPost.save();
+        // 서비스에서 게시글 작성 처리
+        await postService.createPost(title, content, 'manager1'); // manager1은 임시로 하드코딩
+
         res.redirect('/board');
     } catch (error) {
         res.status(500).send('게시글 작성 중 오류 발생');
