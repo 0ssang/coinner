@@ -17,3 +17,9 @@ exports.createPost = async (title, content, username) => {
 
     return await newPost.save();
 };
+
+// 게시글 목록 표시
+exports.getPosts = async () => {
+    const posts = await Post.find().populate('author', 'username').sort({ createdAt: -1 });
+    return posts;
+};

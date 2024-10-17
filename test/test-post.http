@@ -9,8 +9,8 @@ POST {{server}}/board/create
 Content-Type: application/json
 
 {
-  "title": "게시글 작성 테스트1",
-  "content": "테스트입니다.111"
+  "title": "운영자 게시글 작성 Test 2",
+  "content": "운영자의 테스트 게시글 내용입니다 :)"
 }
 
 ### 사용자 등록 POST 요청 보내기
@@ -18,8 +18,8 @@ POST {{server}}/users/register
 Content-Type: application/json
 
 {
-    "username": "manager1",
-    "email": "manager1@example.com",
-    "password": "manager1!",
+    "username": "manager2",
+    "email": "manager2@example.com",
+    "password": "manager2!",
     "role": "manager"
 }

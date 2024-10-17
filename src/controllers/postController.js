@@ -5,7 +5,7 @@ const postService = require('../services/postService');
 // 게시글 목록 표시
 exports.getPosts = async (req, res) => {
     try {
-        const posts = await Post.find().sort({ createdAt: -1 });
+        const posts = await postService.getPosts();
         res.render('board', { posts });
     } catch (error) {
         res.status(500).send('게시글 목록을 불러오는 중 오류 발생');
@@ -30,7 +30,7 @@ exports.createPost = async (req, res) => {
     try {
         const { title, content } = req.body;
         // 서비스에서 게시글 작성 처리
-        await postService.createPost(title, content, 'manager1'); // manager1은 임시로 하드코딩
+        await postService.createPost(title, content, 'manager2'); // manager1은 임시로 하드코딩
 
         res.redirect('/board');
     } catch (error) {
