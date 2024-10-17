@@ -26,7 +26,7 @@ app.set('views', path.join(__dirname, 'src', 'views')); // views 폴더 경로 �
 // 라우터 설정
 app.use('/', homeRoutes); // 홈페이지 관련 라우터 설정
 app.use('/board', postRoutes); // 게시판 관련 라우터 설정
-app.use('users', userRoutes); // 사용자 관련 라우터 설정
+app.use('/users', userRoutes); // 사용자 관련 라우터 설정
 
 // 서버 실행
 const port = process.env.PORT || 3000;

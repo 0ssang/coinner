@@ -3,6 +3,6 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 
 // 회원가입 POST 요청 처리
-router.post('/register', userController.register);
+router.post('/register', userController.registerUser);
 
 module.exports = router;
