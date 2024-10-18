@@ -27,10 +27,12 @@ exports.getPostById = async (req, res) => {
 
 // 게시글 작성 처리
 exports.createPost = async (req, res) => {
+    // const username = req.user.username
+    const username = "manager1"; // manager1은 임시로 하드코딩
     try {
         const { title, content } = req.body;
         // 서비스에서 게시글 작성 처리
-        await postService.createPost(title, content, 'manager2'); // manager1은 임시로 하드코딩
+        await postService.createPost(title, content, username);
 
         res.redirect('/board');
     } catch (error) {
