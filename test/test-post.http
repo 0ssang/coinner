@@ -2,7 +2,7 @@
 @server = http://localhost:3000
 
 ### 게시판 리스트 GET 요청 보내기
-GET {{server}}/board
+GET {{server}}/board?page=2&size=10
 
 ### 게시글 등록 POST 요청 보내기
 POST {{server}}/board/create

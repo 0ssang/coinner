@@ -4,11 +4,34 @@ const postService = require('../services/postService');
 
 // 게시글 목록 표시
 exports.getPosts = async (req, res) => {
+    const { page = 1, limit = 10 } = req.query; // 기본 값 설정
+
     try {
-        const posts = await postService.getPosts();
-        res.render('board', { posts });
+        const posts = await postService.getPosts(page, limit);
+        const totalPosts = await postService.getPostCount();
+        const totalPages = Math.ceil(totalPosts / limit);
+        // 페이지 범위 확인
+        if (page < 1 || page > totalPages) {
+            return res.status(400).render('404', { message: '페이지를 찾을 수 없습니다.' });
+        }
+        if (posts.length === 0) {
+            return res.render('board', {
+                posts: [],
+                message: '게시글이 없습니다.',
+                currentPage: parseInt(page),
+                totalPages,
+                limit: parseInt(limit)
+            });
+        }
+        res.render('board', {
+            posts,
+            currentPage: parseInt(page),
+            totalPages,
+            limit: parseInt(limit)
+        });
     } catch (error) {
-        res.status(500).send('게시글 목록을 불러오는 중 오류 발생');
+        console.log('게시글 목록 로드 오류: ', error);
+        res.status(500).send('게시글 목록을 불러오는 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요. ');
     }
 };
 

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Post = require('../models/post');
 const User = require('../models/user');
 
-// 게시글 작성 로직 (트랜잭션 적용)
+// 게시글 작성(트랜잭션 적용)
 exports.createPost = async (title, content, username) => {
     // MongoDB 세션 시작
     const session = await mongoose.startSession();
@@ -30,7 +30,7 @@ exports.createPost = async (title, content, username) => {
 
         // 사용자 업데이트 저장
         await user.save({ session }); // 트랜잭션 내에서 저장
-        
+
         // 트랜잭션 커밋 (성공적으로 완료)
         await session.commitTransaction();
 
@@ -47,7 +47,15 @@ exports.createPost = async (title, content, username) => {
 
 
 // 게시글 목록 표시
-exports.getPosts = async () => {
-    const posts = await Post.find().populate('author', 'username').sort({ createdAt: -1 });
+exports.getPosts = async (page = 1, limit = 10) => {
+    const skip = (page - 1) * limit;
+    const posts = await Post.find()
+        .populate('author', 'username')
+        .sort({ createdAt: -1 });
     return posts;
+};
+
+// 전체 게시글 수 반환
+exports.getPostCount = async () => {
+    return await Post.countDocuments();
 };
