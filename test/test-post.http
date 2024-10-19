@@ -9,8 +9,8 @@ POST {{server}}/board/create
 Content-Type: application/json
 
 {
-  "title": "공지사항입니다.",
-  "content": "게시판 이용안내 수칙을 준수해주세요."
+  "title": "게시판 이용안내",
+  "content": "ㅁㄴㅇㄹㅂㅈㄷㄹㅁㄴㅇㄹㅁㅈㄷㄹ"
 }
 
 ### 사용자 등록 POST 요청 보내기

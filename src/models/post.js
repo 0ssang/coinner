@@ -16,10 +16,6 @@ const PostSchema = new Schema({
         ref: 'User',
         required: true
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
     views: {
         type: Number,
         default: 0
@@ -28,21 +24,19 @@ const PostSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     }],
-    updatedAt: {
-        type: Date,
-        default: Date.now
-    },
     comments: [{
         type: Schema.Types.ObjectId,
         ref: 'Comment'
     }]
+}, {
+    timestamps: true // 자동으로 createdAt과 updatedAt 필드 생성 및 관리
 });
 
-// 게시글이 저장되기 전에 현재 시간으로 업데이트
-PostSchema.pre('save', async function (next) {
-    this.updatedAt = Date.now();
-    next();
-});
+// // 게시글이 저장되기 전에 현재 시간으로 업데이트 ==> timestamps 옵션으로 대체
+// PostSchema.pre('save', async function (next) {
+//     this.updatedAt = Date.now();
+//     next();
+// });
 
 // 조회수 증가 메서드
 PostSchema.methods.increaseViews = async function () {
