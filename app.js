@@ -7,11 +7,7 @@ const userRoutes = require('./src/routes/userRoutes');
 
 // 루트 밑에 config 폴더에 db.js 파일 생성
 const connectDB = require('./config/db');
-
 const app = express();
-
-// MongoDB 연결 설정
-connectDB(); // db.js 모듈 실행
 
 // 미들웨어 설정
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,8 +24,19 @@ app.use('/', homeRoutes); // 홈페이지 관련 라우터 설정
 app.use('/board', postRoutes); // 게시판 관련 라우터 설정
 app.use('/users', userRoutes); // 사용자 관련 라우터 설정
 
-// 서버 실행
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+// DB 연결 완료 후 서버 실행
+(async () => {
+  try {
+    // MongoDB 연결
+    await connectDB();
+
+    // 연결 성공 후 서버 시작
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+      console.log(`서버가 http://localhost:${port}에서 실행 중입니다.`);
+    });
+  } catch (error) {
+    console.error('서버 시작 중 오류 발생:', error);
+    process.exit(1);
+  }
+})();
