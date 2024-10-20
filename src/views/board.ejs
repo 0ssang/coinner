@@ -32,7 +32,7 @@
         <!-- 검색창 -->
         <section id="search-bar">
             <input type="text" id="search" placeholder="게시글 검색...">
-            <button id="search-btn">검색</button>
+            <button id="search-btn" onclick="submitSearch()">검색</button>
         </section>
 
         <!-- 게시글 목록 테이블 -->
@@ -77,6 +77,18 @@
             <a href="/board/create"><button id="create-post-btn">게시글 작성</button></a>
         </div>
     </main>
+
+    <script>
+        function submitSearch() {
+            const searchQuery = document.getElementById('search').value;
+            if (searchQuery.trim() !== "") {
+                const url = `/board?search=${encodeURIComponent(searchQuery)}`;
+                window.location.href = url;
+            } else {
+                alert('검색어를 입력해주세요.');
+            }
+        }
+    </script>
 </body>
 
 </html>
