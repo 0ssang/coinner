@@ -9,7 +9,7 @@
 
 const _ = require('lodash');
 
-function pagenate(totalItems, currentPage = 1, pageSize = 10){
+function paginate(totalItems, currentPage = 1, pageSize = 10) {
     const totalPages = Math.ceil(totalItems / pageSize);
     // 현재 페이지 번호와 페이지 범위를 제한하는 Lodash의 clamp 함수 사용
     currentPage = _.clamp(currentPage, 1, totalPages);
@@ -19,7 +19,7 @@ function pagenate(totalItems, currentPage = 1, pageSize = 10){
     const endPage = Math.min(totalPages, startPage + pageSize - 1);
 
     // 페이지 목록 생성
-    const pages =  _.range(startPage, endPage + 1);
+    const pages = _.range(startPage, endPage + 1);
 
     return {
         currentPage,
@@ -31,4 +31,4 @@ function pagenate(totalItems, currentPage = 1, pageSize = 10){
 
 }
 
-module.exports = pagenate;
+module.exports = paginate;

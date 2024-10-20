@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Post = require('../models/post');
 const User = require('../models/user');
+const paginate = require('../utils/pagination');
 
 // 게시글 작성(트랜잭션 적용)
 exports.createPost = async (title, content, username) => {
