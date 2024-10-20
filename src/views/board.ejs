@@ -35,47 +35,101 @@
             <button id="search-btn" onclick="submitSearch()">검색</button>
         </section>
 
-        <!-- 게시글 목록 테이블 -->
-        <section id="board-list">
-            <table>
-                <thead>
-                    <tr>
-                        <th>번호</th>
-                        <th>제목</th>
-                        <th>작성자</th>
-                        <th>작성일자</th>
-                        <th>조회수</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- 서버에서 전달받은 posts 데이터를 사용하여 동적으로 게시글 렌더링 -->
-                    <% posts.forEach(function(post, index) { %>
-                        <tr>
-                            <td>
-                                <%= index + 1 %>
-                            </td>
-                            <td><a href="/board/<%= post._id %>">
-                                    <%= post.title %>
-                                </a></td>
-                            <td>
-                                <%= post.author.username %> <!-- 작성자 이름을 username으로 출력. -->
-                            </td>
-                            <td>
-                                <%= post.createdAt.toLocaleDateString() %>
-                            </td>
-                            <td>
-                                <%= post.views %>
-                            </td>
-                        </tr>
-                        <% }) %>
-                </tbody>
-            </table>
-        </section>
+        <!-- 검색 결과 안내 문구 -->
+        <% if(searchQuery && searchQuery.trim() !=="" ) { %>
+            <section id="search-result-message">
+                <p>"<%= searchQuery %>"에 대한 검색 결과입니다.</p>
+            </section>
+            <% } %>
 
-        <!-- 게시글 작성 버튼 -->
-        <div class="create-post-btn">
-            <a href="/board/create"><button id="create-post-btn">게시글 작성</button></a>
-        </div>
+                <!-- 게시글 목록 테이블 -->
+                <section id="board-list">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>번호</th>
+                                <th>제목</th>
+                                <th>작성자</th>
+                                <th>작성일자</th>
+                                <th>조회수</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (posts.length> 0) { %>
+                                <% posts.forEach(function(post, index) { %>
+                                    <tr>
+                                        <td>
+                                            <%= index + 1 %>
+                                        </td>
+                                        <td><a href="/board/<%= post._id %>">
+                                                <%= post.title %>
+                                            </a></td>
+                                        <td>
+                                            <%= post.author.username %>
+                                        </td>
+                                        <td>
+                                            <%= post.createdAt.toLocaleDateString() %>
+                                        </td>
+                                        <td>
+                                            <%= post.views %>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="5">
+                                                    <% if (searchQuery && searchQuery.trim() !=="" ) { %>
+                                                        '<%= searchQuery %>'에 대한 검색 결과가 없습니다.
+                                                            <% } else { %>
+                                                                게시글이 없습니다.
+                                                                <% } %>
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- 게시글 작성 버튼 -->
+                <div class="create-post-btn">
+                    <a href="/board/create"><button id="create-post-btn">게시글 작성</button></a>
+                </div>
+
+                <!-- 페이지네이션 -->
+                <div id="pagination">
+                    <% if (pages.length > 1) { %>
+                        <ul>
+                            <!--  ( << )첫 페이지 -->
+                            <% if (currentPage > 1) { %>
+                            <li><a href="?page=1&search=<%= searchQuery %>">&lt;&lt;</a></li>
+                            <% } %>
+                            <!--  ( < )이전 페이지 -->
+                            <% if (currentPage > 1) { %>
+                            <li><a href="?page=<%= currentPage - 1 %>&search=<%= searchQuery %>">&lt;</a>
+                            </li>
+                            <% } %>
+                            <!-- 페이지 번호 -->
+                            <% pages.forEach(function(page) { %>
+                            <li>
+                                <a href="?page=<%= page %>&search=<%= searchQuery %>"
+                                    class="<%= currentPage === page ? 'active' : '' %>">
+                                    <%= page %>
+                                </a>
+                            </li>
+                            <% }) %>
+                            <!-- ( > )다음 페이지 -->
+                            <% if (currentPage < totalPages) { %>
+                            <li><a href="?page=<%= currentPage + 1 %>&search=<%= searchQuery %>">&gt;</a>
+                            </li>
+                            <% } %>
+                            <!-- ( >> )마지막 페이지 -->
+                            <% if (currentPage < totalPages) { %>
+                                <li><a href="?page=<%= totalPages %>&search=<%= searchQuery %>">&gt;&gt;</a>
+                                </li>
+                            <% } %>
+                        </ul>
+                    <% } %>
+                </div>
     </main>
 
     <script>

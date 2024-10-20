@@ -47,16 +47,35 @@ exports.createPost = async (title, content, username) => {
 };
 
 
-// 게시글 목록 표시
-exports.getPosts = async (page = 1, limit = 10) => {
+// 게시글 목록 표시 (검색 및 페이지네이션)
+exports.getPosts = async (page = 1, limit = 10, searchQuery = "") => {
     const skip = (page - 1) * limit;
-    const posts = await Post.find()
-        .populate('author', 'username')
-        .sort({ createdAt: -1 });
-    return posts;
-};
 
-// 전체 게시글 수 반환
-exports.getPostCount = async () => {
-    return await Post.countDocuments();
+    // 검색 조건
+    const searchCondition = searchQuery
+        ? {
+            $or: [
+                { title: { $regex: searchQuery, $options: 'i' } },
+                { content: { $regex: searchQuery, $options: 'i' } }
+            ]
+        }
+        : {};
+
+    // 총 게시글 수 계산
+    const totalPosts = await Post.countDocuments(searchCondition);
+
+    // 페이지네이션 적용하여 게시글 가져오기
+    const posts = await Post.find(searchCondition)
+        .populate('author', 'username')
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit);
+
+    // 페이지네이션 정보 계산
+    const pagination = paginate(totalPosts, parseInt(page), parseInt(limit));
+
+    return {
+        posts,
+        pagination
+    };
 };

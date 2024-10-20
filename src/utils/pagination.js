@@ -15,7 +15,7 @@ function paginate(totalItems, currentPage = 1, pageSize = 10) {
     currentPage = _.clamp(currentPage, 1, totalPages);
 
     // 시작페이지와 끝페이지 계산
-    const startPage = Math.max(1, currentPage - Math.floor(maxPages / 2));
+    const startPage = Math.max(1, currentPage - Math.floor(pageSize / 2));
     const endPage = Math.min(totalPages, startPage + pageSize - 1);
 
     // 페이지 목록 생성

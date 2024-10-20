@@ -12,7 +12,7 @@ npm-debug.log
 pids
 logs
 results
-
+test/
 .env
 
 public
