@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const Post = require('../models/post');
 const User = require('../models/user');
+const Comment = require('../models/comment');
 const paginate = require('../utils/pagination');
+
 
 // 게시글 작성(트랜잭션 적용)
 exports.createPost = async (title, content, username) => {
@@ -70,4 +72,31 @@ exports.getPosts = async (page = 1, limit = 10, searchQuery = "") => {
         posts,
         pagination
     };
+};
+
+
+// 게시글 상세 보기
+exports.getPostById = async (postId) => {
+    // 게시글과 댓글, 답글 정보를 가져옴
+    try {
+        console.log('postId:', postId);
+        const post = await Post.findById(postId)
+            .populate('author', 'username')
+            .populate({
+                path: 'comments',
+                populate: [
+                    { path: 'author', select: 'username' },
+                    { path: 'replies.author', select: 'username' }
+                ]
+            });
+        console.log("post:", post);
+        if (!post) {
+            return null;
+        }
+
+        await post.increaseViews();
+        return post;
+    } catch (error) {
+        throw new Error("게시글 조회 중 오류 발생");
+    }
 };

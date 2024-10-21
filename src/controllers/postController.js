@@ -42,16 +42,19 @@ exports.getPosts = async (req, res) => {
     }
 };
 
-// 게시글 상세 보기
+// 게시글 조회
 exports.getPostById = async (req, res) => {
     try {
-        const post = await Post.findById(req.params.id);
-        if (!post) {
-            return res.status(404).send('게시글을 찾을 수 없습니다.');
+        const post = await postService.getPostById(req.params.id);
+
+        if(!post) {
+            return res.status(404).render('404', { message: "게시글을 찾을 수 없습니다." });
         }
+
         res.render('postDetail', { post });
     } catch (error) {
-        res.status(500).send('게시글을 불러오는 중 오류 발생');
+        console.log('게시글 조회 오류: ', error);
+        res.status(500).send('게시글을 불러오는 중 오류가 발생했습니다.');
     }
 };
 
@@ -68,4 +71,9 @@ exports.createPost = async (req, res) => {
     } catch (error) {
         res.status(500).send('게시글 작성 중 오류 발생');
     }
+};
+
+// 게시글 작성 페이지 렌더링
+exports.renderCreatePost = (req, res) => {
+    res.render('createPost');
 };

@@ -24,20 +24,32 @@
         <!-- 게시글 상세 내용 -->
         <section id="post-detail">
             <h1><%= post.title %></h1>
-            <p>작성자: <%= post.author %></p>
+            <p>작성자: <%= post.author.username %></p>
             <p>작성일: <%= post.createdAt.toLocaleDateString() %></p>
             <p><%= post.content %></p>
         </section>
 
         <!-- 댓글 목록 -->
         <section id="comments">
-            <h2>댓글</h2>
+            <h3>댓글</h3>
             <% if (post.comments.length > 0) { %>
                 <ul>
                     <% post.comments.forEach(function(comment) { %>
                         <li>
-                            <p><%= comment.author %>: <%= comment.content %></p>
-                            <p><small><%= comment.createdAt.toLocaleDateString() %></small></p>
+                            <strong><%= comment.author.username %></strong>: <%= comment.content %> <br>
+                            <small><%= comment.createdAt.toLocaleDateString() %></small>
+        
+                            <!-- 답글 표시 -->
+                            <% if (comment.replies.length > 0) { %>
+                                <ul>
+                                    <% comment.replies.forEach(function(reply) { %>
+                                        <li>
+                                            <strong><%= reply.author.username %></strong>: <%= reply.content %> <br>
+                                            <small><%= reply.createdAt.toLocaleDateString() %></small>
+                                        </li>
+                                    <% }) %>
+                                </ul>
+                            <% } %>
                         </li>
                     <% }) %>
                 </ul>
@@ -48,7 +60,7 @@
 
         <!-- 댓글 작성 폼 -->
         <section id="comment-form">
-            <form action="/board/<%= post._id %>/comment" method="POST">
+            <form action="/board/<%= post._id %>/comments" method="POST">
                 <textarea name="content" rows="3" placeholder="댓글을 입력하세요" required></textarea>
                 <button type="submit">댓글 작성</button>
             </form>
