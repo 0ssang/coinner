@@ -67,4 +67,7 @@ PostSchema.methods.removeLike = async function (userId) {
     return this;
 }
 
+// 텍스트 인덱스 생성
+PostSchema.index({ title: 'text', content: 'text' });
+
 module.exports = mongoose.model('Post', PostSchema);

@@ -24,14 +24,11 @@ exports.createPost = async (title, content, username) => {
         });
 
         // 게시글 저장
-        await newPost.save({ session }); // 트랜잭션 내에서 저장
-
+        await newPost.save({ session });
         // 사용자의 posts 필드에 게시글 id 추가
         user.posts.push(newPost._id);
-
         // 사용자 업데이트 저장
-        await user.save({ session }); // 트랜잭션 내에서 저장
-
+        await user.save({ session });
         // 트랜잭션 커밋 (성공적으로 완료)
         await session.commitTransaction();
 
@@ -53,12 +50,7 @@ exports.getPosts = async (page = 1, limit = 10, searchQuery = "") => {
 
     // 검색 조건
     const searchCondition = searchQuery
-        ? {
-            $or: [
-                { title: { $regex: searchQuery, $options: 'i' } },
-                { content: { $regex: searchQuery, $options: 'i' } }
-            ]
-        }
+        ? { $text: { $search: searchQuery } }
         : {};
 
     // 총 게시글 수 계산
