@@ -100,3 +100,33 @@ exports.getPostById = async (postId) => {
         throw new Error("게시글 조회 중 오류 발생");
     }
 };
+
+// 게시글 조회 (수정을 위한)
+exports.getPostByIdForEdit = async (postId) => {
+    console.log('postId:', postId);
+    try {
+        const post = await Post.findById(postId).select('title content author');
+        console.log('post:', post);
+        if (!post) {
+            return null;
+        }
+        return post;
+    } catch (error) {
+        throw new Error("게시글 조회 중 오류 발생");
+    }
+};
+
+// 게시글 수정
+exports.updatePost = async (postId, title, content) => {
+    try {
+        const updatedPost = await Post.findByIdAndUpdate(postId, { title, content }, { new: true });
+        return updatedPost;
+    } catch (error) {
+        throw new Error('게시글 수정 중 오류 발생');
+    }
+}
+
+// 댓글 작성
+exports.createComment = async (postId, username, content) => {
+
+}

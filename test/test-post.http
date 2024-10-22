@@ -23,3 +23,19 @@ Content-Type: application/json
     "password": "manager1!",
     "role": "manager"
 }
+
+### 게시글 조회 GET
+GET {{server}}/board/671539441d0f72662215a968
+
+### 게시글 수정 페이지 이동 GET 요청 보내기
+GET {{server}}/board/671539441d0f72662215a968/edit
+Accept: text/html
+
+### 게시글 수정 PUT 요청 보내기
+PUT {{server}}/board/671539441d0f72662215a968
+Content-Type: application/json
+
+{
+  "title": "게시글 수정 테스트",
+  "content": "this is a test of updating board"
+}

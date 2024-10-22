@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const postRoutes = require('./src/routes/postRoutes'); // postRoutes 경로 수정
 const homeRoutes = require('./src/routes/homeRoutes');
 const userRoutes = require('./src/routes/userRoutes');
+const methodOverride = require('method-override');
 
 // 루트 밑에 config 폴더에 db.js 파일 생성
 const connectDB = require('./config/db');
@@ -12,8 +13,8 @@ const app = express();
 // 미들웨어 설정
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-// 정적 파일을 서빙하기 위한 설정
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));// 정적 파일을 서빙하기 위한 설정
+app.use(methodOverride('_method')); // DELETE, PUT 메서드를 사용하기 위한 미들웨어
 
 // EJS 템플릿 설정 (views 폴더가 src 안에 있을 때)
 app.set('view engine', 'ejs');
