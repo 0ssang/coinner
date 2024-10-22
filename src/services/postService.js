@@ -3,6 +3,7 @@ const Post = require('../models/post');
 const User = require('../models/user');
 const Comment = require('../models/comment');
 const paginate = require('../utils/pagination');
+const post = require('../models/post');
 
 
 // 게시글 작성(트랜잭션 적용)
@@ -123,6 +124,19 @@ exports.updatePost = async (postId, title, content) => {
         return updatedPost;
     } catch (error) {
         throw new Error('게시글 수정 중 오류 발생');
+    }
+}
+
+// 게시글 삭제
+exports.deletePost = async (postId) => {
+    try {
+        const deletedPost = await Post.findByIdAndDelete(postId);
+        if (!deletedPost) {
+            return null;
+        }
+        return deletedPost;
+    } catch (error) {
+        throw new Error('게시글 삭제 중 오류 발생');
     }
 }
 

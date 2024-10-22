@@ -21,6 +21,9 @@ router.get('/:id/edit', postController.renderEditPost);
 // 게시글 수정 (PUT 요청)
 router.put('/:id', postController.updatePost);
 
+// 게시글 삭제 (DELETE 요청)
+router.delete('/:id', postController.deletePost);
+
 // 댓글 작성(POST 요청)
 router.post('/:id/comments', postController.createComment);
 

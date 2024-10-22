@@ -39,3 +39,7 @@ Content-Type: application/json
   "title": "게시글 수정 테스트",
   "content": "this is a test of updating board"
 }
+
+### 게시글 삭제 DELETE 요청 보내기
+DELETE {{server}}/board/671539441d0f72662215a966
+Accept: application/json

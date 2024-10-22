@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Comment = require('./comment');
+const User = require('./user');
 
 const PostSchema = new Schema({
     title: {
@@ -69,5 +71,21 @@ PostSchema.methods.removeLike = async function (userId) {
 
 // 텍스트 인덱스 생성
 PostSchema.index({ title: 'text', content: 'text' });
+
+// 게시글 삭세 전 댓글 및 user.posts 필드에서 게시글 id 제거
+PostSchema.pre('findOneAndDelete', async function (next) {
+    const postId = this.getQuery()._id;
+    try {
+        await Comment.deleteMany({ postId: postId });
+        await User.updateOne(
+            { _id: this.author },
+            { $pull: { posts: this._id } }
+        );
+
+        next();
+    } catch (error) {
+        next(error);
+    }
+})
 
 module.exports = mongoose.model('Post', PostSchema);

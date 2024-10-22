@@ -106,6 +106,23 @@ exports.updatePost = async (req, res) => {
     }
 }
 
+// 게시글 삭제 처리
+exports.deletePost = async (req, res) => {
+    const postId = req.params.id;
+    try {
+        const deleltedPost = await postService.deletePost(postId);
+        if (!deleltedPost) {
+            return res.status(404).render('404', { message: "게시글을 찾을 수 없습니다." });
+        }
+        console.log("삭제된 게시글: ", deleltedPost);
+        res.redirect('/board');
+
+    } catch (error) {
+        console.error('게시글 삭제 중 오류: ', error);
+        res.status(500).send('게시글 삭제 중 오류가 발생했습니다.');
+    }
+}
+
 // 댓글 작성
 exports.createComment = async (req, res) => {
 
