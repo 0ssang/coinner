@@ -123,7 +123,17 @@ exports.deletePost = async (req, res) => {
     }
 }
 
-// 댓글 작성
+// 댓글 작성 처리
 exports.createComment = async (req, res) => {
+    const postId = req.params.id;
+    const { content } = req.body;
+    const userId = "6712466f1d2dc73d7be2e90b"; // 임시로 하드코딩 인증기능 구현 후 req.user._id 로 변경
+    try {
+        await postService.createComment(postId, userId, content);
 
+        res.redirect(`/board/${postId}`);
+    } catch (error) {
+        console.error('댓글 작성 중 오류: ', error);
+        res.status(500).send('댓글 작성 중 오류가 발생했습니다.');
+    }
 }

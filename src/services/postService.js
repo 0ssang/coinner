@@ -3,7 +3,6 @@ const Post = require('../models/post');
 const User = require('../models/user');
 const Comment = require('../models/comment');
 const paginate = require('../utils/pagination');
-const post = require('../models/post');
 
 
 // 게시글 작성(트랜잭션 적용)
@@ -140,7 +139,33 @@ exports.deletePost = async (postId) => {
     }
 }
 
-// 댓글 작성
-exports.createComment = async (postId, username, content) => {
+// 댓글 작성 (트랜잭션 적용)
+exports.createComment = async (postId, userId, content) => {
+    // MongoDB 세션, 트랜잭션 시작
+    const session = await mongoose.startSession();
+    session.startTransaction();
 
+    try {
+        // 1. 새로운 댓글 생성
+        const newComment = new Comment({
+            content: content,
+            author: userId,
+        });
+        // 2. 댓글 저장
+        await newComment.save({ session });
+
+        // 3. 게시글의 comments 배열에 새로운 댓글 ID 추가
+        await Post.findByIdAndUpdate(postId, { $push: { comments: newComment._id } }, { session });
+
+        // 4. 트랜잭션 커밋
+        await session.commitTransaction();
+        session.endSession();
+
+        return newComment; // 생성된 댓글 반환
+    } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        console.error('댓글 작성 중 오류 발생:', error);
+        throw new Error('댓글 작성 중 오류 발생');
+    }
 }

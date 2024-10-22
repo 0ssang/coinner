@@ -43,3 +43,11 @@ Content-Type: application/json
 ### 게시글 삭제 DELETE 요청 보내기
 DELETE {{server}}/board/671539441d0f72662215a966
 Accept: application/json
+
+### 댓글 등록 POST 요청 보내기
+POST {{server}}/board/671539441d0f72662215a968/comments
+Content-Type: application/json
+
+{
+  "content": "댓글 등록 테스트1"
+}
