@@ -87,7 +87,7 @@ exports.renderEditPost = async (req, res) => {
         console.error('게시글 수정 페이지 렌더링 오류 : ', error);
         res.status(500).send('게시글 수정 페이지를 로드하는 중 오류가 발생했습니다.');
     }
-}
+};
 
 // 게시글 수정 처리
 exports.updatePost = async (req, res) => {
@@ -104,7 +104,7 @@ exports.updatePost = async (req, res) => {
         console.error('게시글 수정 오류: ', error);
         res.status(500).send('게시글 수정 중 오류가 발생했습니다.');
     }
-}
+};
 
 // 게시글 삭제 처리
 exports.deletePost = async (req, res) => {
@@ -136,7 +136,7 @@ exports.createComment = async (req, res) => {
         console.error('댓글 작성 중 오류: ', error);
         res.status(500).send('댓글 작성 중 오류가 발생했습니다.');
     }
-}
+};
 
 // 댓글 수정 처리
 exports.updateComment = async (req, res) => {
@@ -175,4 +175,20 @@ exports.deleteComment = async (req, res) => {
         console.error('댓글 삭제 중 오류: ', error);
         res.status(500).send('댓글 삭제 중 오류가 발생했습니다.');
     }
-}
+};
+
+// 답글 작성 처리
+exports.addReply = async (req, res) => {
+    const postId = req.params.postId;
+    const commentId = req.params.commentId;
+    const { content } = req.body;
+    const userId = "6712466f1d2dc73d7be2e90b"; // 임시로 하드코딩 인증기능 구현 후 req.user._id 로 변경
+
+    try {
+        await postService.addReply(postId, commentId, userId, content);
+        res.redirect(`/board/${postId}`);
+    } catch (error) {
+        console.error('답글 작성 중 오류: ', error);
+        res.status(500).send('답글 작성 중 오류가 발생했습니다.');
+    }
+};

@@ -23,16 +23,11 @@ const UserSchema = new Schema({
         type: String,
         default: 'user'
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    },
     posts: [{
         type: Schema.Types.ObjectId,
         ref: 'Post'
     }]
-
-});
+}, { timestamps: true });
 
 // 비밀번호를 저장하기 전에 해시 처리하는 미들웨어
 UserSchema.pre('save', async function (next) {

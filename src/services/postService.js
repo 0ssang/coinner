@@ -221,4 +221,32 @@ exports.deleteComment = async (postId, commentId, userId) => {
         console.error('댓글 삭제 중 오류 발생:', error);
         throw new Error('댓글 삭제 중 오류 발생');
     }
+};
+
+// 답글 작성
+exports.addReply = async (postId, commentId, userId, content) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    try{
+        // 1. 댓글 찾기
+        const comment = await Comment.findOne({ _id: commentId }).session(session);
+        if(!comment) {
+            await session.abortTransaction();
+            session.endSession();
+            return null;
+        }
+        // 2. 댓글에 답글 추가
+        comment.replies.push({
+            content: content,
+            author: userId,
+            createdAt: new Date()
+        });
+    } catch (error) {
+        // 트랜잭셩 롤백
+        await session.abortTransaction();
+        session.endSession();
+        console.error('답글 작성 중 오류:', error);
+        throw new Error('답글 작성 중 오류');
+    }
 }

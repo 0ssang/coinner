@@ -33,4 +33,7 @@ router.put('/:postId/comments/:commentId', postController.updateComment);
 // 댓글 삭제 (DELETE 요청)
 router.delete('/:postId/comments/:commentId', postController.deleteComment);
 
+// 답글 작성 (POST 요청)
+router.post('/:postId/comments/:commentId/replies', postController.addReply);
+
 module.exports = router;
