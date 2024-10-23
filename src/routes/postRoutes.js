@@ -31,6 +31,6 @@ router.post('/:id/comments', postController.createComment);
 router.put('/:postId/comments/:commentId', postController.updateComment);
 
 // 댓글 삭제 (DELETE 요청)
-//router.delete('/:postId/comments/:commentId', postController.deleteComment);
+router.delete('/:postId/comments/:commentId', postController.deleteComment);
 
 module.exports = router;

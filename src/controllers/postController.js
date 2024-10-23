@@ -157,3 +157,22 @@ exports.updateComment = async (req, res) => {
         res.status(500).send('댓글 수정 중 오류가 발생했습니다.');
     }
 };
+
+// 댓글 삭제 처리
+exports.deleteComment = async (req, res) => {
+    const postId = req.params.postId;
+    const commentId = req.params.commentId;
+    const userId = "6712466f1d2dc73d7be2e90b"; // 임시로 하드코딩 인증기능 구현 후 req.user._id 로 변경
+
+    try {
+        const deletedComment = await postService.deleteComment(postId, commentId, userId);
+        if (!deletedComment) {
+            return res.status(404).render('404', { message: "댓글을 찾을 수 없습니다." });
+        }
+        // 삭제 성공 시 게시글 상세 페이지로 이동
+        res.redirect(`/board/${postId}`);
+    } catch (error) {
+        console.error('댓글 삭제 중 오류: ', error);
+        res.status(500).send('댓글 삭제 중 오류가 발생했습니다.');
+    }
+}

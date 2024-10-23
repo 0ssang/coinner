@@ -191,3 +191,34 @@ exports.updateComment = async (postId, commentId, content, userId) => {
         throw new Error('댓글 수정 중 오류 발생');
     }
 };
+
+// 댓글 삭제
+exports.deleteComment = async (postId, commentId, userId) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    try {
+        // 1. 삭제할 댓글 찾기 (작성자도 확인)
+        const comment = await Comment.findOne({ _id: commentId, author: userId }).session(session);
+        if (!comment) {
+            await session.abortTransaction();
+            session.endSession();
+            return null;
+        }
+        // 2. 댓글 삭제
+        await Comment.deleteOne({ _id: commentId }).session(session);
+        // 3. 게시글의 commnets 배열에서 commentId 제거
+        await Post.findByIdAndUpdate(postId, { $pull: { comments: commentId } }, { session });
+        // 4. 트랜잭션 커밋
+        await session.commitTransaction();
+        session.endSession();
+
+        return comment;
+    } catch (error) {
+        // 트랜잭션 롤백
+        await session.abortTransaction();
+        session.endSession();
+        console.error('댓글 삭제 중 오류 발생:', error);
+        throw new Error('댓글 삭제 중 오류 발생');
+    }
+}
