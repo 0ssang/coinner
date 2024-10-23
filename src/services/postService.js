@@ -258,4 +258,46 @@ exports.addReply = async (postId, commentId, userId, content) => {
         console.error('답글 작성 중 오류:', error);
         throw new Error('답글 작성 중 오류');
     }
-}
+};
+
+// 답글 수정
+exports.updateReply = async (postId, commentId, replyId, userId, content) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    try {
+        // 1. 댓글 찾기
+        const comment = await Comment.findById(commentId).session(session);
+        if (!comment) {
+            await session.abortTransaction();
+            session.endSession();
+            return null;
+        }
+
+        // 2. 답글을 찾기 (userId도 확인)
+        const reply = comment.replies.id(replyId);
+        if (!reply || reply.author.toString() !== userId.toString()) {
+            await session.abortTransaction();
+            session.endSession();
+            return null;
+        }
+        // 3. 답글 내용 업데이트
+        reply.content = content;
+        //reply.updatedAt = new Date();
+
+        // 4. 댓글 저장
+        await comment.save({ session });
+
+        // 5. 트랜잭션 커밋
+        await session.commitTransaction();
+        session.endSession();
+        console.log('수정된 답글:', reply);
+        return reply;
+    } catch (error) {
+        // 트랜잭션 롤백
+        await session.abortTransaction();
+        session.endSession();
+        console.error('답글 수정 중 오류:', error);
+        throw new Error('답글 수정 중 오류');
+    }
+};
