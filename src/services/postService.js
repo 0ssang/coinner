@@ -301,3 +301,38 @@ exports.updateReply = async (postId, commentId, replyId, userId, content) => {
         throw new Error('답글 수정 중 오류');
     }
 };
+
+// 답글 삭제
+exports.deleteReply = async (postId, commentId, replyId, userId) => {
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    try {
+        // 1. 댓글 찾기
+        const comment = await Comment.findById(commentId).session(session);
+        if (!comment) {
+            await session.abortTransaction();
+            session.endSession();
+            return null;
+        }
+
+        // 2. 답글 삭제 (조건: _id와 author가 일치하는 답글을 삭제)
+        await Comment.updateOne(
+            { _id: commentId },
+            { $pull: { replies: { _id: replyId, author: userId } } },  // 조건에 맞는 답글을 삭제
+            { session }
+        );
+
+        // 3. 트랜잭션 커밋
+        await session.commitTransaction();
+        session.endSession();
+
+        return comment;  // 업데이트된 댓글 반환
+    } catch (error) {
+        // 트랜잭션 롤백
+        await session.abortTransaction();
+        session.endSession();
+        console.error('답글 삭제 중 오류:', error);
+        throw new Error('답글 삭제 중 오류');
+    }
+};

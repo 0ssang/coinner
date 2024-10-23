@@ -39,4 +39,7 @@ router.post('/:postId/comments/:commentId/replies', postController.addReply);
 // 답글 수정 (PUT 요청)
 router.put('/:postId/comments/:commentId/replies/:replyId', postController.updateReply);
 
+// 답글 삭제 (DELETE 요청)
+router.delete('/:postId/comments/:commentId/replies/:replyId', postController.deleteReply);
+
 module.exports = router;

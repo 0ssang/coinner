@@ -68,7 +68,7 @@ POST {{server}}/board/671539441d0f72662215a968/comments/6717d510598e521c7140e96d
 Content-Type: application/json
 
 {
-  "content": "?? 무슨 소리임"
+  "content": "ㅆㅇㅈ ㅋㅋ"
 }
 
 ### 답글 수정 PUT 요청 보내기
@@ -78,3 +78,6 @@ Content-Type: application/json
 {
   "content": "응 아니야"
 }
+
+### 답글 삭제 DELETE 요청 보내기
+DELETE {{server}}/board/671539441d0f72662215a968/comments/6717d510598e521c7140e96d/replies/6718e54f50975cebdad6d17e
