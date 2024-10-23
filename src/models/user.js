@@ -19,6 +19,16 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    isVerified: { // email 인증 여부
+        type: Boolean,
+        default: false
+    },
+    resetPasswordToken: {
+        type: String
+    },
+    resetPasswordExpires: {
+        type: Date
+    },
     role: {
         type: String,
         default: 'user'
@@ -29,22 +39,13 @@ const UserSchema = new Schema({
     }]
 }, { timestamps: true });
 
-// 비밀번호를 저장하기 전에 해시 처리하는 미들웨어
+// 비밀번호를 해시 처리
 UserSchema.pre('save', async function (next) {
-    try {
-        // 비밀번호가 새롭게 저장되거나 수정될 때만 해시 처리
-        if (this.isModified('password') || this.isNew) {
-            // 솔트값 생성
-            const salt = await bcrypt.genSalt(10);
-            // 해시 처리
-            const hashedPassword = await bcrypt.hash(this.password, salt);
-            // 비밀번호를 해시로 교체
-            this.password = hashedPassword;
-        }
-        next();
-    } catch (error) {
-        next(error);
+    if (this.isModified('password')) {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
     }
+    next();
 });
 
 // 입력된 비밀번호가 데이터베이스에 저장된 해시된 비밀번호와 일치하는지 비교
