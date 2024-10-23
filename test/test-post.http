@@ -62,3 +62,11 @@ Content-Type: application/json
 
 ### 댓글 삭제 DELETE 요청 보내기
 DELETE {{server}}/board/671539441d0f72662215a968/comments/6718c4ae2e8e19211e38018f
+
+### 답글 작성 POST 요청 보내기
+POST {{server}}/board/671539441d0f72662215a968/comments/6717d510598e521c7140e96d/replies
+Content-Type: application/json
+
+{
+  "content": "?? 무슨 소리임"
+}

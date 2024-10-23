@@ -228,10 +228,10 @@ exports.addReply = async (postId, commentId, userId, content) => {
     const session = await mongoose.startSession();
     session.startTransaction();
 
-    try{
+    try {
         // 1. 댓글 찾기
         const comment = await Comment.findOne({ _id: commentId }).session(session);
-        if(!comment) {
+        if (!comment) {
             await session.abortTransaction();
             session.endSession();
             return null;
@@ -240,8 +240,17 @@ exports.addReply = async (postId, commentId, userId, content) => {
         comment.replies.push({
             content: content,
             author: userId,
-            createdAt: new Date()
+            createdAt: new Date(), // 타임스탬프는 자동으로 관리되지만 명시적으로 작성
+            updatedAt: new Date()
         });
+        // 3. 댓글 저장
+        await comment.save({ session });
+
+        // 4. 트랜잭션 커밋
+        await session.commitTransaction();
+        session.endSession();
+
+        return comment;
     } catch (error) {
         // 트랜잭셩 롤백
         await session.abortTransaction();
