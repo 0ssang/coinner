@@ -124,7 +124,7 @@ exports.updatePost = async (postId, title, content) => {
     } catch (error) {
         throw new Error('게시글 수정 중 오류 발생');
     }
-}
+};
 
 // 게시글 삭제
 exports.deletePost = async (postId) => {
@@ -137,7 +137,7 @@ exports.deletePost = async (postId) => {
     } catch (error) {
         throw new Error('게시글 삭제 중 오류 발생');
     }
-}
+};
 
 // 댓글 작성 (트랜잭션 적용)
 exports.createComment = async (postId, userId, content) => {
@@ -168,4 +168,26 @@ exports.createComment = async (postId, userId, content) => {
         console.error('댓글 작성 중 오류 발생:', error);
         throw new Error('댓글 작성 중 오류 발생');
     }
-}
+};
+
+// 댓글 수정
+exports.updateComment = async (postId, commentId, content, userId) => {
+    try {
+        // 1. 댓글을 ID로 찾아서 확인
+        const comment = await Comment.findOne({ _id: commentId, author: userId });
+
+        // 2. 댓글이 존재하지 않거나 사용자가 작성한 댓글이 아닌 경우 null 반환
+        if (!comment) {
+            return null;
+        }
+
+        // 3. 댓글 내용 업데이트
+        comment.content = content;
+
+        // 4. 업데이트된 댓글 저장
+        const updatedComment = await comment.save();
+        return updatedComment;
+    } catch (error) {
+        throw new Error('댓글 수정 중 오류 발생');
+    }
+};
