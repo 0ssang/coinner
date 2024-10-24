@@ -84,3 +84,31 @@ exports.verifyEmail = async (token) => {
     user.isVerified = true;
     await user.save();
 };
+
+// 로그인 처리 및 토큰 발급
+exports.login = async (email, password) => {
+    const user = await User.findOne({ email });
+    if (!user) {
+        throw new Error('가입되지 않은 이메일입니다.');
+    }
+
+    if (!user.isVerified) {
+        throw new Error('이메일 인증이 완료되지 않았습니다.');
+    }
+
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+        throw new Error('비밀번호가 일치하지 않습니다.');
+    }
+
+    // Access Token 발급 (1시간)
+    const accessToken = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    // Refresh Token 발급 (7일)
+    const refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_SECRET, { expiresIn: '7d' });
+
+    user.refreshToken = refreshToken;
+    await user.save();
+
+    return { accessToken, refreshToken };
+}

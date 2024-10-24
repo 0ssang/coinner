@@ -23,3 +23,15 @@ exports.verifyEmail = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
+
+// 로그인 처리
+exports.login = async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const { accessToken, refreshToken } = await authService.login(email, password);
+        res.status(200).json({ accessToken, refreshToken });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}

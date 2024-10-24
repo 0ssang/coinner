@@ -2,26 +2,25 @@
 @server = http://localhost:3000
 
 ### 게시판 리스트 GET 요청 보내기
-GET {{server}}/board?page=2&size=10
+GET {{server}}/board
 
 ### 게시글 등록 POST 요청 보내기
-POST {{server}}/board/create
+POST {{server}}/board
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MWEzM2Y0Y2M3NDU1NTAzMDdjNjMxNCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzI5Nzc1MjU3LCJleHAiOjE3Mjk3Nzg4NTd9.4k85dM0JR_NguHz0FdlN_ZiEnIXbixx7i7SuFYVwN1A
 Content-Type: application/json
 
 {
-  "title": "게시판 이용안내",
-  "content": "ㅁㄴㅇㄹㅂㅈㄷㄹㅁㄴㅇㄹㅁㅈㄷㄹ"
+  "title": "로그인 후 게시글 등록 테스트",
+  "content": "Token 발급받았음 <br/> accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MWEzM2Y0Y2M3NDU1NTAzMDdjNjMxNCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzI5Nzc1MjU3LCJleHAiOjE3Mjk3Nzg4NTd9.4k85dM0JR_NguHz0FdlN_ZiEnIXbixx7i7SuFYVwN1A"
 }
 
 ### 사용자 등록 POST 요청 보내기
-POST {{server}}/users/register
+POST {{server}}/auth/login
 Content-Type: application/json
 
 {
-    "username": "manager1",
-    "email": "manager1@example.com",
-    "password": "manager1!",
-    "role": "manager"
+    "email": "youngsang0124@gmail.com",
+    "password": "Uusseerr1!"
 }
 
 ### 게시글 조회 GET
