@@ -81,3 +81,13 @@ Content-Type: application/json
 
 ### 답글 삭제 DELETE 요청 보내기
 DELETE {{server}}/board/671539441d0f72662215a968/comments/6717d510598e521c7140e96d/replies/6718e54f50975cebdad6d17e
+
+### 회원가입 POST 요청 보내기
+POST {{server}}/auth/signup
+Content-Type: application/json
+
+{
+  "username": "test_user",
+  "email": "youngsang0124@gmail.com",
+  "password": "Uusseerr1!"
+}

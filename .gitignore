@@ -14,7 +14,7 @@ logs
 results
 test/
 .env
-
+.http
 public
 dist
 

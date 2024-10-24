@@ -3,7 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const postRoutes = require('./src/routes/postRoutes'); // postRoutes 경로 수정
 const homeRoutes = require('./src/routes/homeRoutes');
-const userRoutes = require('./src/routes/userRoutes');
+const authRoutes = require('./src/routes/authRoutes');
 const methodOverride = require('method-override');
 
 // 루트 밑에 config 폴더에 db.js 파일 생성
@@ -23,7 +23,7 @@ app.set('views', path.join(__dirname, 'src', 'views')); // views 폴더 경로 �
 // 라우터 설정
 app.use('/', homeRoutes); // 홈페이지 관련 라우터 설정
 app.use('/board', postRoutes); // 게시판 관련 라우터 설정
-app.use('/users', userRoutes); // 사용자 관련 라우터 설정
+app.use('/auth', authRoutes); // 인증/인가 관련 라우터 설정
 
 // DB 연결 완료 후 서버 실행
 (async () => {
