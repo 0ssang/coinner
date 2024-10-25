@@ -34,4 +34,16 @@ exports.login = async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-}
+};
+
+// Access Token 재발급 처리 (Refresh Token 사용)
+exports.issueNewToken = async (req, res) => {
+    const { refreshToken } = req.body;
+
+    try {
+        const accessToken = await authService.issueNewToken(refreshToken);
+        res.status(200).json({ accessToken });
+    } catch (error) {
+        res.status(400).json({ message: '리프레시 토큰이 유효하지 않습니다.' });
+    }
+};

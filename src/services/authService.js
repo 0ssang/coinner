@@ -111,4 +111,17 @@ exports.login = async (email, password) => {
     await user.save();
 
     return { accessToken, refreshToken };
-}
+};
+
+// Refresh Token을 사용한 Access Token 재발급
+exports.issueNewToken = async (refreshToken) => {
+    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+    const user = await User.findById(decoded.id);
+    if (!user || user.refreshToken !== refreshToken) {
+        throw new Error('리프레시 토큰이 유효하지 않습니다.');
+    }
+
+    // 새로운 Access Token 발급 (1시간)
+    const accessToken = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    return accessToken;
+};

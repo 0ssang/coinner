@@ -12,4 +12,7 @@ router.get('/verify-email', authController.verifyEmail);
 // 로그인 (POST 요청)
 router.post('/login', authController.login);
 
+// Access Token 재발급 (POST 요청)
+router.post('/token', authController.issueNewToken);
+
 module.exports = router;
