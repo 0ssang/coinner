@@ -14,7 +14,7 @@ Content-Type: application/json
   "content": "Token 발급받았음 <br/> accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MWEzM2Y0Y2M3NDU1NTAzMDdjNjMxNCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzI5Nzc1MjU3LCJleHAiOjE3Mjk3Nzg4NTd9.4k85dM0JR_NguHz0FdlN_ZiEnIXbixx7i7SuFYVwN1A"
 }
 
-### 사용자 등록 POST 요청 보내기
+### 로그인 POST 요청 보내기
 POST {{server}}/auth/login
 Content-Type: application/json
 
@@ -89,4 +89,12 @@ Content-Type: application/json
   "username": "test_user",
   "email": "youngsang0124@gmail.com",
   "password": "Uusseerr1!"
+}
+
+### Access Token 재발급 POST 요청 보내기
+POST {{server}}/auth/refresh-token
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MWEzM2Y0Y2M3NDU1NTAzMDdjNjMxNCIsImlhdCI6MTcyOTg3ODY5NSwiZXhwIjoxNzMwNDgzNDk1fQ.2yrnGZE91kn50zAWLS8X9AhArw6stDOZOopgnpKHHhU"
 }

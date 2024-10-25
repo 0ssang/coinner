@@ -13,6 +13,6 @@ router.get('/verify-email', authController.verifyEmail);
 router.post('/login', authController.login);
 
 // Access Token 재발급 (POST 요청)
-router.post('/token', authController.issueNewToken);
+router.post('/refresh-token', authController.refreshToken);
 
 module.exports = router;

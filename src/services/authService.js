@@ -105,7 +105,7 @@ exports.login = async (email, password) => {
     const accessToken = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // Refresh Token 발급 (7일)
-    const refreshToken = jwt.sign({ id: user._id }, process.env.REFRESH_SECRET, { expiresIn: '7d' });
+    const refreshToken = jwt.sign({ id: user._id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
 
     user.refreshToken = refreshToken;
     await user.save();
@@ -114,14 +114,16 @@ exports.login = async (email, password) => {
 };
 
 // Refresh Token을 사용한 Access Token 재발급
-exports.issueNewToken = async (refreshToken) => {
-    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-    const user = await User.findById(decoded.id);
-    if (!user || user.refreshToken !== refreshToken) {
-        throw new Error('리프레시 토큰이 유효하지 않습니다.');
-    }
+exports.refreshToken = async (refreshToken) => {
+    try {
+        const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+        const user = await User.findById(decoded.id);
 
-    // 새로운 Access Token 발급 (1시간)
-    const accessToken = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    return accessToken;
+        if (!user) throw new Error('유효하지 않은 사용자입니다.');
+
+        const newAccessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '15m' });
+        return newAccessToken;
+    } catch (error) {
+        throw new Error('유효하지 않은 리프레시 토큰입니다.');
+    }
 };
