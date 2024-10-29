@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const postController = require('../controllers/postController');
-const { protect } = require('../middlewares/authMiddleware'); // 인증 미들웨어 가져오기
+const { protect, authorizePostOwner } = require('../middlewares/authMiddleware'); // 인증 미들웨어 가져오기
 
 // 게시글 목록 조회 (GET 요청)
 router.get('/', postController.getPosts);  // /board 경로에서 게시글 목록 보여줌
@@ -17,13 +17,13 @@ router.get('/:id', postController.getPostById);  // 위의 라우터와 중복�
 router.post('/', protect, postController.createPost);
 
 // 게시글 수정 페이지 이동 (GET 요청)
-router.get('/:id/edit', protect, postController.renderEditPost);
+router.get('/:id/edit', protect, authorizePostOwner, postController.renderEditPost);
 
 // 게시글 수정 (PUT 요청)
-router.put('/:id', protect, postController.updatePost);
+router.put('/:id', protect, authorizePostOwner, postController.updatePost);
 
 // 게시글 삭제 (DELETE 요청)
-router.delete('/:id', protect, postController.deletePost);
+router.delete('/:id', protect, authorizePostOwner, postController.deletePost);
 
 // 댓글 작성(POST 요청)
 router.post('/:id/comments', protect, postController.createComment);
