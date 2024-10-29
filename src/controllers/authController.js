@@ -8,7 +8,7 @@ exports.signup = async (req, res) => {
         const result = await authService.signup(username, email, password);
         res.status(200).json(result);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(400).render('errors/400', { message: error.message });
     }
 };
 
@@ -20,7 +20,7 @@ exports.verifyEmail = async (req, res) => {
         await authService.verifyEmail(token);
         res.status(200).json({ message: '이메일 인증이 완료되었습니다.' });
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(400).render('errors/400', { message: error.message });
     }
 };
 
@@ -32,7 +32,7 @@ exports.login = async (req, res) => {
         const { accessToken, refreshToken } = await authService.login(email, password);
         res.status(200).json({ accessToken, refreshToken });
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        res.status(400).render('errors/400', { message: error.message });
     }
 };
 
@@ -44,6 +44,6 @@ exports.refreshToken = async (req, res) => {
         const newAccessToken = await authService.refreshToken(refreshToken);
         res.status(200).json({ newAccessToken });
     } catch (error) {
-        res.status(400).json({ message: '리프레시 토큰이 유효하지 않습니다.' });
+        res.status(400).render('errors/400', { message: '리프레시 토큰이 유효하지 않습니다.' });
     }
 };
