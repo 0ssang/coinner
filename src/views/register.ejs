@@ -10,11 +10,20 @@
         /* 추가적인 스타일 */
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             background-color: #f7f7f7;
             font-family: Arial, sans-serif;
+        }
+
+        /* 큰 로고 텍스트 */
+        .logo-text {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 20px;
         }
 
         .register-container {
@@ -88,6 +97,9 @@
 </head>
 
 <body>
+    <!-- 큰 로고 텍스트 -->
+    <div class="logo-text">Coinner</div>
+
     <div class="register-container">
         <h2>회원가입</h2>
         <form action="/register" method="POST">
