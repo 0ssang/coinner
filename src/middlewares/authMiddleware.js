@@ -35,6 +35,6 @@ exports.authorizePostOwner = async (req, res, next) => {
 
         next();
     } catch (error) {
-        return res.status(500).json({ message: '권한 검사 중 오류가 발생했습니다.' });
+        return res.status(500).render('errors/500');
     }
 }

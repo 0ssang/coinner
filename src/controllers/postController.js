@@ -32,7 +32,7 @@ exports.getPosts = async (req, res) => {
 
     } catch (error) {
         console.log('게시글 목록 로드 오류: ', error);
-        res.status(500).send('게시글 목록을 불러오는 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요. ');
+        res.status(500).render('errors/500');
     }
 };
 
@@ -48,7 +48,7 @@ exports.getPostById = async (req, res) => {
         res.render('postDetail', { post });
     } catch (error) {
         console.log('게시글 조회 오류: ', error);
-        res.status(500).send('게시글을 불러오는 중 오류가 발생했습니다.');
+        res.status(500).render('errors/500');
     }
 };
 
@@ -63,7 +63,7 @@ exports.createPost = async (req, res) => {
 
         res.redirect('/board');
     } catch (error) {
-        res.status(500).send('게시글 작성 중 오류 발생');
+        res.status(500).render('errors/500');
     }
 };
 
@@ -85,7 +85,7 @@ exports.renderEditPost = async (req, res) => {
 
     } catch (error) {
         console.error('게시글 수정 페이지 렌더링 오류 : ', error);
-        res.status(500).send('게시글 수정 페이지를 로드하는 중 오류가 발생했습니다.');
+        res.status(500).render('errors/500', { message: '게시글 수정 페이지를 로드하는 중 오류가 발생했습니다.' });
     }
 };
 
@@ -102,7 +102,7 @@ exports.updatePost = async (req, res) => {
 
     } catch (error) {
         console.error('게시글 수정 오류: ', error);
-        res.status(500).send('게시글 수정 중 오류가 발생했습니다.');
+        res.status(500).render('errors/500', { message: '게시글 수정 중 오류가 발생했습니다.' });
     }
 };
 
@@ -119,7 +119,7 @@ exports.deletePost = async (req, res) => {
 
     } catch (error) {
         console.error('게시글 삭제 중 오류: ', error);
-        res.status(500).send('게시글 삭제 중 오류가 발생했습니다.');
+        res.status(500).render('errors/500', { message: '게시글 삭제 중 오류가 발생했습니다.' });
     }
 }
 
@@ -134,7 +134,7 @@ exports.createComment = async (req, res) => {
         res.redirect(`/board/${postId}`);
     } catch (error) {
         console.error('댓글 작성 중 오류: ', error);
-        res.status(500).send('댓글 작성 중 오류가 발생했습니다.');
+        res.status(500).render('errors/500');
     }
 };
 
@@ -154,7 +154,7 @@ exports.updateComment = async (req, res) => {
         res.redirect(`/board/${postId}`);
     } catch (error) {
         console.error('댓글 수정 중 오류: ', error);
-        res.status(500).send('댓글 수정 중 오류가 발생했습니다.');
+        res.status(500).render('errors/500');
     }
 };
 
@@ -173,7 +173,7 @@ exports.deleteComment = async (req, res) => {
         res.redirect(`/board/${postId}`);
     } catch (error) {
         console.error('댓글 삭제 중 오류: ', error);
-        res.status(500).send('댓글 삭제 중 오류가 발생했습니다.');
+        res.status(500).render('errors/500');
     }
 };
 
@@ -189,7 +189,7 @@ exports.addReply = async (req, res) => {
         res.redirect(`/board/${postId}`);
     } catch (error) {
         console.error('답글 작성 중 오류: ', error);
-        res.status(500).send('답글 작성 중 오류가 발생했습니다.');
+        res.status(500).render('errors/500');
     }
 };
 
@@ -211,7 +211,7 @@ exports.updateReply = async (req, res) => {
 
     } catch (error) {
         console.error('답글 수정 중 오류: ', error);
-        res.status(500).send('답글 수정 중 오류가 발생했습니다.');
+        res.status(500).render('errors/500');
     }
 };
 
@@ -231,6 +231,6 @@ exports.deleteReply = async (req, res) => {
         res.redirect(`/board/${postId}`);
     } catch (error) {
         console.error('답글 삭제 중 오류: ', error);
-        res.status(500).send('답글 삭제 중 오류가 발생했습니다.');
+        res.status(500).render('errors/500');
     }
 };
