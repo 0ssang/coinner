@@ -28,20 +28,21 @@ GET {{server}}/board/671539441d0f72662215a968
 
 ### 게시글 수정 페이지 이동 GET 요청 보내기
 GET {{server}}/board/671539441d0f72662215a968/edit
-Accept: text/html
 
 ### 게시글 수정 PUT 요청 보내기
-PUT {{server}}/board/671539441d0f72662215a968
+PUT {{server}}/board/67210744b0e8a402116ffd2b
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MWEzM2Y0Y2M3NDU1NTAzMDdjNjMxNCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMwMjE4NDgxLCJleHAiOjE3MzAyMjIwODF9.sjc7d-136zLMnBevDY3z7U7JiYJcu8kOQTeszaxIUng
 
 {
-  "title": "게시글 수정 테스트",
+  "title": "게시글 수정 테스트 test test!!",
   "content": "this is a test of updating board"
 }
 
 ### 게시글 삭제 DELETE 요청 보내기
-DELETE {{server}}/board/671539441d0f72662215a966
+DELETE {{server}}/board/67210744b0e8a402116ffd2b
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MWEzM2Y0Y2M3NDU1NTAzMDdjNjMxNCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMwMjE4NDgxLCJleHAiOjE3MzAyMjIwODF9.sjc7d-136zLMnBevDY3z7U7JiYJcu8kOQTeszaxIUng
 
 ### 댓글 등록 POST 요청 보내기
 POST {{server}}/board/671539441d0f72662215a968/comments

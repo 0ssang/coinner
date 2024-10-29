@@ -42,7 +42,7 @@ exports.getPostById = async (req, res) => {
         const post = await postService.getPostById(req.params.id);
 
         if (!post) {
-            return res.status(404).render('404', { message: "게시글을 찾을 수 없습니다." });
+            return res.status(404).render('errors/404', { message: "게시글을 찾을 수 없습니다." });
         }
 
         res.render('postDetail', { post });
@@ -54,8 +54,8 @@ exports.getPostById = async (req, res) => {
 
 // 게시글 작성 처리
 exports.createPost = async (req, res) => {
-    // const username = req.user.username
-    const username = "manager1"; // manager1은 임시로 하드코딩
+    const username = req.user.username;
+    //const username = "manager1"; // manager1은 임시로 하드코딩
     try {
         const { title, content } = req.body;
         // 서비스에서 게시글 작성 처리
@@ -79,7 +79,7 @@ exports.renderEditPost = async (req, res) => {
         const post = await postService.getPostByIdForEdit(postId);
         console.log("Controller - post:", post);
         if (!post) {
-            return res.status(404).render('404', { message: "게시글을 찾을 수 없습니다." });
+            return res.status(404).render('errors/404', { message: "게시글을 찾을 수 없습니다." });
         }
         res.render('createPost', { post });
 
@@ -96,7 +96,7 @@ exports.updatePost = async (req, res) => {
     try {
         const updatedPost = await postService.updatePost(postId, title, content);
         if (!updatedPost) {
-            return res.status(404).render('404', { message: "게시글을 찾을 수 없습니다." });
+            return res.status(404).render('errors/404', { message: "게시글을 찾을 수 없습니다." });
         }
         res.redirect(`/board/${postId}`);
 
@@ -112,7 +112,7 @@ exports.deletePost = async (req, res) => {
     try {
         const deleltedPost = await postService.deletePost(postId);
         if (!deleltedPost) {
-            return res.status(404).render('404', { message: "게시글을 찾을 수 없습니다." });
+            return res.status(404).render('errors/404', { message: "게시글을 찾을 수 없습니다." });
         }
         console.log("삭제된 게시글: ", deleltedPost);
         res.redirect('/board');
@@ -127,7 +127,7 @@ exports.deletePost = async (req, res) => {
 exports.createComment = async (req, res) => {
     const postId = req.params.id;
     const { content } = req.body;
-    const userId = "6712466f1d2dc73d7be2e90b"; // 임시로 하드코딩 인증기능 구현 후 req.user._id 로 변경
+    const userId = req.user._id; // 임시로 하드코딩 인증기능 구현 후 req.user._id 로 변경
     try {
         await postService.createComment(postId, userId, content);
 
@@ -143,12 +143,12 @@ exports.updateComment = async (req, res) => {
     const postId = req.params.postId;
     const commentId = req.params.commentId;
     const { content } = req.body;
-    const userId = "6712466f1d2dc73d7be2e90b"; // 임시로 하드코딩 인증기능 구현 후 req.user._id 로 변경
+    const userId = req.user._id; // 임시로 하드코딩 인증기능 구현 후 req.user._id 로 변경
 
     try {
         const updatedComment = await postService.updateComment(postId, commentId, content, userId);
         if (!updatedComment) {
-            return res.status(404).render('404', { message: "댓글을 찾을 수 없습니다." });
+            return res.status(404).render('errors/404', { message: "댓글을 찾을 수 없습니다." });
         }
         // 수정 성공 시 게시글 상세 페이지로 이동
         res.redirect(`/board/${postId}`);
@@ -162,12 +162,12 @@ exports.updateComment = async (req, res) => {
 exports.deleteComment = async (req, res) => {
     const postId = req.params.postId;
     const commentId = req.params.commentId;
-    const userId = "6712466f1d2dc73d7be2e90b"; // 임시로 하드코딩 인증기능 구현 후 req.user._id 로 변경
+    const userId = req.user._id; // 임시로 하드코딩 인증기능 구현 후 req.user._id 로 변경
 
     try {
         const deletedComment = await postService.deleteComment(postId, commentId, userId);
         if (!deletedComment) {
-            return res.status(404).render('404', { message: "댓글을 찾을 수 없습니다." });
+            return res.status(404).render('errors/404', { message: "댓글을 찾을 수 없습니다." });
         }
         // 삭제 성공 시 게시글 상세 페이지로 이동
         res.redirect(`/board/${postId}`);
@@ -182,7 +182,7 @@ exports.addReply = async (req, res) => {
     const postId = req.params.postId;
     const commentId = req.params.commentId;
     const { content } = req.body;
-    const userId = "6712466f1d2dc73d7be2e90b"; // 임시로 하드코딩 인증기능 구현 후 req.user._id 로 변경
+    const userId = req.user._id; // 임시로 하드코딩 인증기능 구현 후 req.user._id 로 변경
 
     try {
         await postService.addReply(postId, commentId, userId, content);
@@ -199,12 +199,12 @@ exports.updateReply = async (req, res) => {
     const commentId = req.params.commentId;
     const replyId = req.params.replyId;
     const { content } = req.body;
-    const userId = "6712466f1d2dc73d7be2e90b"; // 임시로 하드코딩 인증기능 구현 후 req.user._id 로 변경
+    const userId = req.user._id; // 임시로 하드코딩 인증기능 구현 후 req.user._id 로 변경
 
     try {
         const updatedReply = await postService.updateReply(postId, commentId, replyId, userId, content);
         if (!updatedReply) {
-            return res.status(404).render('404', { message: "답글을 찾을 수 없습니다." });
+            return res.status(404).render('errors/404', { message: "답글을 찾을 수 없습니다." });
         }
         // 수정 성공 시 게시글 상세 페이지로 이동
         res.redirect(`/board/${postId}`);
@@ -220,12 +220,12 @@ exports.deleteReply = async (req, res) => {
     const postId = req.params.postId;
     const commentId = req.params.commentId;
     const replyId = req.params.replyId;
-    const userId = "6712466f1d2dc73d7be2e90b"; // 임시로 하드코딩 인증기능 구현 후 req.user._id 로 변경 
+    const userId = req.user._id; // 임시로 하드코딩 인증기능 구현 후 req.user._id 로 변경 
 
     try {
         const replyRemovedComment = await postService.deleteReply(postId, commentId, replyId, userId);
         if (!replyRemovedComment) {
-            return res.status(404).render('404', { message: "답글을 찾을 수 없습니다." });
+            return res.status(404).render('errors/404', { message: "답글을 찾을 수 없습니다." });
         }
         // 삭제 성공 시 게시글 상세 페이지로 이동
         res.redirect(`/board/${postId}`);

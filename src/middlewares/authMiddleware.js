@@ -12,8 +12,16 @@ exports.protect = async (req, res, next) => {
     }
 
     try {
+        // 토큰 검증 및 사용자 ID 추출
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = await User.findById(decoded.id).select('-password');
+        const user = await User.findById(decoded.id).select('-password'); // password 제외하고 조회
+
+        if (!user) {
+            return res.status(404).render('errors/404', { message: '유효하지 않은 사용자입니다.' });
+        }
+
+        // 요청 객체에 사용자 정보 저장
+        req.user = user;
         next();
     } catch (error) {
         return res.status(401).json({ message: '유효하지 않은 토큰입니다.' });
