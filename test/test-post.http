@@ -6,7 +6,7 @@ GET {{server}}/board
 
 ### 게시글 등록 POST 요청 보내기
 POST {{server}}/board
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MWEzM2Y0Y2M3NDU1NTAzMDdjNjMxNCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzI5Nzc1MjU3LCJleHAiOjE3Mjk3Nzg4NTd9.4k85dM0JR_NguHz0FdlN_ZiEnIXbixx7i7SuFYVwN1A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MWY4MDg3NWQwNjdlNTdmYTdjZjNiMiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzMwMTE3ODMzLCJleHAiOjE3MzAxMjE0MzN9.wnuKbeGPciYol188Q6I9HK20zBkpP-7ka3sDC4WbDbw
 Content-Type: application/json
 
 {
@@ -19,8 +19,8 @@ POST {{server}}/auth/login
 Content-Type: application/json
 
 {
-    "email": "youngsang0124@gmail.com",
-    "password": "Uusseerr1!"
+    "email": "yeyiyeyi@naver.com",
+    "password": "258693zZ!"
 }
 
 ### 게시글 조회 GET
@@ -86,9 +86,9 @@ POST {{server}}/auth/signup
 Content-Type: application/json
 
 {
-  "username": "test_user",
-  "email": "youngsang0124@gmail.com",
-  "password": "Uusseerr1!"
+  "username": "test_user2",
+  "email": "yeyiyeyi@naver.com",
+  "password": "258693zZ!"
 }
 
 ### Access Token 재발급 POST 요청 보내기
