@@ -48,7 +48,17 @@ exports.login = async (req, res) => {
 
     try {
         const { accessToken, refreshToken } = await authService.login(email, password);
-        res.status(200).render('home', { accessToken, refreshToken });
+
+        // refresh token을 httpOnly 쿠키로 설정하여 안전하게 저장
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'Strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7일
+        });
+
+        // 로그인 성공 시 accessToken을 클라이언트에 전송하고, 홈 페이지로 리다이렉트
+        res.status(200).json({ accessToken, redirectUrl: '/home' });
     } catch (error) {
         res.status(400).render('errors/400', { message: error.message });
     }

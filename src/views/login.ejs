@@ -18,7 +18,6 @@
             font-family: Arial, sans-serif;
         }
 
-        /* 큰 로고 텍스트 */
         .logo-text {
             font-size: 2.5em;
             font-weight: bold;
@@ -98,30 +97,57 @@
 </head>
 
 <body>
-    <!-- 큰 로고 텍스트 -->
     <div class="logo-text">Coinner</div>
 
     <div class="login-container">
         <h2>로그인</h2>
-        <form action="/auth/login" method="POST">
+        <form id="loginForm">
             <div class="form-group">
-                <label for="username">이메일</label>
+                <label for="email">이메일</label>
                 <input type="text" id="email" name="email" required>
             </div>
             <div class="form-group">
                 <label for="password">비밀번호</label>
                 <input type="password" id="password" name="password" required>
             </div>
-            <button type="submit">로그인</button>
+            <button type="button" onclick="login()">로그인</button>
         </form>
 
-        <!-- 추가 링크: 아이디 찾기, 비밀번호 찾기, 회원가입 -->
         <div class="links">
             <a href="/find-username">아이디 찾기</a> |
             <a href="/find-password">비밀번호 찾기</a> |
             <a href="/auth/signup">회원가입</a>
         </div>
     </div>
+
+    <script>
+        async function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // accessToken을 localStorage에 저장
+                    localStorage.setItem('accessToken', data.accessToken);
+                    // 홈 페이지로 리다이렉트
+                    window.location.href = data.redirectUrl;
+                } else {
+                    alert(data.message);  // 오류 메시지를 alert로 표시
+                }
+            } catch (error) {
+                console.error('로그인 요청 중 오류 발생:', error);
+                alert('로그인 요청 중 오류가 발생했습니다.');
+            }
+        }
+    </script>
 </body>
 
 </html>
