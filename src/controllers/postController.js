@@ -1,5 +1,4 @@
 // /src/controllers/postController.js
-const Post = require('../models/post');
 const postService = require('../services/postService');
 
 // 게시글 목록 표시

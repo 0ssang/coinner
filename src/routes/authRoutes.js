@@ -3,6 +3,12 @@ const router = express.Router();
 const authController = require('../controllers/authController');
 const authMiddleware = require('../middlewares/authMiddleware');
 
+// 회원가입 페이지 렌더링 (GET 요청)
+router.get('/signup', authController.renderSignup);
+
+// 로그인 페이지 렌더링 (GET 요청)
+router.get('/login', authController.renderLogin);
+
 // 회원가입 (POST 요청)
 router.post('/signup', authController.signup);
 

@@ -102,7 +102,7 @@
 
     <div class="register-container">
         <h2>회원가입</h2>
-        <form action="/register" method="POST">
+        <form action="/auth/signup" method="POST">
             <div class="form-group">
                 <label for="username">사용자 이름</label>
                 <input type="text" id="username" name="username" required>
@@ -122,7 +122,7 @@
             <button type="submit">가입하기</button>
         </form>
         <div class="login-link">
-            <p>이미 계정이 있으신가요? <a href="/login">로그인</a></p>
+            <p>이미 계정이 있으신가요? <a href="/auth/login">로그인</a></p>
         </div>
     </div>
 </body>

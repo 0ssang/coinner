@@ -15,8 +15,8 @@
             <div class="logo">Coinner</div>
             <ul class="nav-links">
                 <li><a href="/">홈</a></li>
-                <li><a href="/register">회원가입</a></li>
-                <li><a href="/login">로그인</a></li>
+                <li><a href="/auth/signup">회원가입</a></li>
+                <li><a href="/auth/login">로그인</a></li>
                 <li><a href="/support">고객센터</a></li>
                 <li><a href="/board">게시판</a></li>
             </ul>
@@ -97,38 +97,40 @@
 
                 <!-- 페이지네이션 -->
                 <div id="pagination">
-                    <% if (pages.length > 1) { %>
+                    <% if (pages.length> 1) { %>
                         <ul>
                             <!--  ( << )첫 페이지 -->
-                            <% if (currentPage > 1) { %>
-                            <li><a href="?page=1&search=<%= searchQuery %>">&lt;&lt;</a></li>
-                            <% } %>
-                            <!--  ( < )이전 페이지 -->
-                            <% if (currentPage > 1) { %>
-                            <li><a href="?page=<%= currentPage - 1 %>&search=<%= searchQuery %>">&lt;</a>
-                            </li>
-                            <% } %>
-                            <!-- 페이지 번호 -->
-                            <% pages.forEach(function(page) { %>
-                            <li>
-                                <a href="?page=<%= page %>&search=<%= searchQuery %>"
-                                    class="<%= currentPage === page ? 'active' : '' %>">
-                                    <%= page %>
-                                </a>
-                            </li>
-                            <% }) %>
-                            <!-- ( > )다음 페이지 -->
-                            <% if (currentPage < totalPages) { %>
-                            <li><a href="?page=<%= currentPage + 1 %>&search=<%= searchQuery %>">&gt;</a>
-                            </li>
-                            <% } %>
-                            <!-- ( >> )마지막 페이지 -->
-                            <% if (currentPage < totalPages) { %>
-                                <li><a href="?page=<%= totalPages %>&search=<%= searchQuery %>">&gt;&gt;</a>
-                                </li>
-                            <% } %>
+                            <% if (currentPage> 1) { %>
+                                <li><a href="?page=1&search=<%= searchQuery %>">&lt;&lt;</a></li>
+                                <% } %>
+                                    <!--  ( < )이전 페이지 -->
+                                    <% if (currentPage> 1) { %>
+                                        <li><a href="?page=<%= currentPage - 1 %>&search=<%= searchQuery %>">&lt;</a>
+                                        </li>
+                                        <% } %>
+                                            <!-- 페이지 번호 -->
+                                            <% pages.forEach(function(page) { %>
+                                                <li>
+                                                    <a href="?page=<%= page %>&search=<%= searchQuery %>"
+                                                        class="<%= currentPage === page ? 'active' : '' %>">
+                                                        <%= page %>
+                                                    </a>
+                                                </li>
+                                                <% }) %>
+                                                    <!-- ( > )다음 페이지 -->
+                                                    <% if (currentPage < totalPages) { %>
+                                                        <li><a
+                                                                href="?page=<%= currentPage + 1 %>&search=<%= searchQuery %>">&gt;</a>
+                                                        </li>
+                                                        <% } %>
+                                                            <!-- ( >> )마지막 페이지 -->
+                                                            <% if (currentPage < totalPages) { %>
+                                                                <li><a
+                                                                        href="?page=<%= totalPages %>&search=<%= searchQuery %>">&gt;&gt;</a>
+                                                                </li>
+                                                                <% } %>
                         </ul>
-                    <% } %>
+                        <% } %>
                 </div>
     </main>
 
