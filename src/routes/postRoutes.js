@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const postController = require('../controllers/postController');
-const { protect, authorizePostOwner } = require('../middlewares/authMiddleware'); // 인증 미들웨어 가져오기
+const { protect, authorizePostOwner, authorizeCommentOwner, authorizeReplyOwner } = require('../middlewares/authMiddleware'); // 인증 미들웨어 가져오기
 
 // 게시글 목록 조회 (GET 요청)
 router.get('/', postController.getPosts);  // /board 경로에서 게시글 목록 보여줌
@@ -29,18 +29,18 @@ router.delete('/:id', protect, authorizePostOwner, postController.deletePost);
 router.post('/:id/comments', protect, postController.createComment);
 
 // 댓글 수정 (PUT 요청)
-router.put('/:postId/comments/:commentId', protect, postController.updateComment);
+router.put('/:postId/comments/:commentId', protect, authorizeCommentOwner, postController.updateComment);
 
 // 댓글 삭제 (DELETE 요청)
-router.delete('/:postId/comments/:commentId', protect, postController.deleteComment);
+router.delete('/:postId/comments/:commentId', protect, authorizeCommentOwner, postController.deleteComment);
 
 // 답글 작성 (POST 요청)
 router.post('/:postId/comments/:commentId/replies', protect, postController.addReply);
 
 // 답글 수정 (PUT 요청)
-router.put('/:postId/comments/:commentId/replies/:replyId', protect, postController.updateReply);
+router.put('/:postId/comments/:commentId/replies/:replyId', protect, authorizeReplyOwner, postController.updateReply);
 
 // 답글 삭제 (DELETE 요청)
-router.delete('/:postId/comments/:commentId/replies/:replyId', protect, postController.deleteReply);
+router.delete('/:postId/comments/:commentId/replies/:replyId', protect, authorizeReplyOwner, postController.deleteReply);
 
 module.exports = router;

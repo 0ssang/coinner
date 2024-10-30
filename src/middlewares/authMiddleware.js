@@ -46,3 +46,49 @@ exports.authorizePostOwner = async (req, res, next) => {
         return res.status(500).render('errors/500');
     }
 }
+
+// 댓글 작성자인지 확인하는 미들웨어
+exports.authorizeCommentOwner = async (req, res, next) => {
+    try {
+        const comment = await Comment.findById(req.params.commentId);
+
+        if (!comment) {
+            return res.status(404).render('errors/404', { message: '댓글을 찾을 수 없습니다.' });
+        }
+
+        // 댓글 작성자와 현재 로그인한 사용자의 _id 비교
+        if (comment.author.toString() !== req.user._id.toString()) {
+            return res.status(403).render('errors/403', { message: '댓글 작성자만 수정 및 삭제할 수 있습니다.' });
+        }
+
+        next();
+    } catch (error) {
+        return res.status(500).render('errors/500');
+    }
+};
+
+// 답글 작성자인지 확인하는 미들웨어
+exports.authorizeReplyOwner = async (req, res, next) => {
+    try {
+        const comment = await Comment.findById(req.params.commentId);
+
+        if (!comment) {
+            return res.status(404).render('errors/404', { message: '댓글을 찾을 수 없습니다.' });
+        }
+
+        // 댓글 내에서 해당 답글을 찾기
+        const reply = comment.replies.id(req.params.replyId);
+        if (!reply) {
+            return res.status(404).render('errors/404', { message: '답글을 찾을 수 없습니다.' });
+        }
+
+        // 답글 작성자와 현재 로그인한 사용자의 _id 비교
+        if (reply.author.toString() !== req.user._id.toString()) {
+            return res.status(403).render('errors/403', { message: '답글 작성자만 수정 및 삭제할 수 있습니다.' });
+        }
+
+        next();
+    } catch (error) {
+        return res.status(500).render('errors/500');
+    }
+};
