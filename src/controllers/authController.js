@@ -58,7 +58,7 @@ exports.login = async (req, res) => {
         });
 
         // 로그인 성공 시 accessToken을 클라이언트에 전송하고, 홈 페이지로 리다이렉트
-        res.status(200).json({ accessToken, redirectUrl: '/home' });
+        res.status(200).json({ accessToken, redirectUrl: '/' });
     } catch (error) {
         res.status(400).render('errors/400', { message: error.message });
     }
