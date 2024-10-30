@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko">
-<script src="/js/api.js"></script>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/api.js"></script>
     <style>
         /* 추가적인 스타일 */
         body {
@@ -133,19 +133,19 @@
                     body: JSON.stringify({ email, password })
                 });
 
-                const data = await response.json();
-
                 if (response.ok) {
-                    // accessToken을 localStorage에 저장
+                    const data = await response.json();
+                    // 로그인 성공 시 accessToken을 localStorage에 저장
                     localStorage.setItem('accessToken', data.accessToken);
-                    // 홈 페이지로 리다이렉트
-                    window.location.href = data.redirectUrl;
+                    // 페이지 새로고침
+                    window.location.reload();
                 } else {
-                    alert(data.message);  // 오류 메시지를 alert로 표시
+                    const errorData = await response.json();
+                    alert(errorData.message || '로그인에 실패했습니다.');
                 }
             } catch (error) {
                 console.error('로그인 요청 중 오류 발생:', error);
-                alert('로그인 요청 중 오류가 발생했습니다.');
+                alert('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
             }
         }
     </script>

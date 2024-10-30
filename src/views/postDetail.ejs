@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
-<script src="/js/api.js"></script>
+
 
 <head>
     <meta charset="UTF-8">
@@ -9,6 +9,7 @@
         <%= post.title %>
     </title>
     <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/api.js"></script>
 </head>
 
 <body>
@@ -79,12 +80,24 @@
 
         <!-- 댓글 작성 폼 -->
         <section id="comment-form">
-            <form action="/board/<%= post._id %>/comments" method="POST">
-                <textarea name="content" rows="3" placeholder="댓글을 입력하세요" required></textarea>
-                <button type="submit">댓글 작성</button>
-            </form>
+            <textarea id="commentContent" rows="3" placeholder="댓글을 입력하세요" required></textarea>
+            <button type="button" onclick="submitComment()">댓글 작성</button>
         </section>
     </main>
+
+    <!-- 앞으로 이러한 방식(await axiosInstance.get/post/put/delete )으로 서버에 요청을 보내셈 (ex. 댓글 삭제/수정, 답글 등록/수정/삭제 등...)-->
+    <script>
+        async function submitComment(postId) {
+            const content = document.getElementById('comment-content').value;
+
+            try {
+                await axiosInstance.post(`/board/${postId}/comments`, { content });
+            } catch (error) {
+                console.error('댓글 작성 중 오류:', error);
+                alert('댓글 작성에 실패했습니다. 잠시 후 다시 시도해주세요.');
+            }
+        }
+    </script>
 </body>
 
 </html>

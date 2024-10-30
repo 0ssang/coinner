@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko">
-<script src="/js/api.js"></script>
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/api.js"></script>
 </head>
 
 <body>
@@ -93,7 +93,7 @@
 
                 <!-- 게시글 작성 버튼 -->
                 <div class="create-post-btn">
-                    <a href="/board/new"><button id="create-post-btn">게시글 작성</button></a>
+                    <button id="create-post-btn" onclick="createNewPost()">게시글 작성</button>
                 </div>
 
                 <!-- 페이지네이션 -->
@@ -143,6 +143,17 @@
                 window.location.href = url;
             } else {
                 alert('검색어를 입력해주세요.');
+            }
+        }
+    </script>
+    <script>
+        async function createNewPost() {
+            try {
+                await axiosInstance.get('/board/new');
+                // 서버에서 렌더링된 페이지를 반환하므로 추가 작업 필요 없음
+            } catch (error) {
+                // 기본적인 오류 알림만 추가
+                alert('오류가 발생했습니다. 다시 시도해 주세요.');
             }
         }
     </script>

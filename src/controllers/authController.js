@@ -66,7 +66,12 @@ exports.login = async (req, res) => {
 
 // Access Token 재발급 처리 (Refresh Token 사용)
 exports.refreshToken = async (req, res) => {
-    const { refreshToken } = req.body;
+    // refreshToken을 httpOnly 쿠키에서 가져옴
+    const refreshToken = req.cookies.refreshToken;
+
+    if (!refreshToken) {
+        return res.status(401).json({ message: '리프레시 토큰이 필요합니다.' });
+    }
 
     try {
         const newAccessToken = await authService.refreshToken(refreshToken);
