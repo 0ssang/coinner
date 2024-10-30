@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="ko">
+<script src="/js/api.js"></script>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= post.title %></title>
+    <title>
+        <%= post.title %>
+    </title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
+
 <body>
     <header>
         <nav>
@@ -23,39 +28,53 @@
     <main>
         <!-- 게시글 상세 내용 -->
         <section id="post-detail">
-            <h1><%= post.title %></h1>
-            <p>작성자: <%= post.author.username %></p>
-            <p>작성일: <%= post.createdAt.toLocaleDateString() %></p>
-            <p><%= post.content %></p>
+            <h1>
+                <%= post.title %>
+            </h1>
+            <p>작성자: <%= post.author.username %>
+            </p>
+            <p>작성일: <%= post.createdAt.toLocaleDateString() %>
+            </p>
+            <p>
+                <%= post.content %>
+            </p>
         </section>
 
         <!-- 댓글 목록 -->
         <section id="comments">
             <h3>댓글</h3>
-            <% if (post.comments.length > 0) { %>
+            <% if (post.comments.length> 0) { %>
                 <ul>
                     <% post.comments.forEach(function(comment) { %>
                         <li>
-                            <strong><%= comment.author.username %></strong>: <%= comment.content %> <br>
-                            <small><%= comment.createdAt.toLocaleDateString() %></small>
-        
-                            <!-- 답글 표시 -->
-                            <% if (comment.replies.length > 0) { %>
-                                <ul>
-                                    <% comment.replies.forEach(function(reply) { %>
-                                        <li>
-                                            <strong><%= reply.author.username %></strong>: <%= reply.content %> <br>
-                                            <small><%= reply.createdAt.toLocaleDateString() %></small>
-                                        </li>
-                                    <% }) %>
-                                </ul>
-                            <% } %>
+                            <strong>
+                                <%= comment.author.username %>
+                            </strong>: <%= comment.content %> <br>
+                                <small>
+                                    <%= comment.createdAt.toLocaleDateString() %>
+                                </small>
+
+                                <!-- 답글 표시 -->
+                                <% if (comment.replies.length> 0) { %>
+                                    <ul>
+                                        <% comment.replies.forEach(function(reply) { %>
+                                            <li>
+                                                <strong>
+                                                    <%= reply.author.username %>
+                                                </strong>: <%= reply.content %> <br>
+                                                    <small>
+                                                        <%= reply.createdAt.toLocaleDateString() %>
+                                                    </small>
+                                            </li>
+                                            <% }) %>
+                                    </ul>
+                                    <% } %>
                         </li>
-                    <% }) %>
+                        <% }) %>
                 </ul>
-            <% } else { %>
-                <p>댓글이 없습니다.</p>
-            <% } %>
+                <% } else { %>
+                    <p>댓글이 없습니다.</p>
+                    <% } %>
         </section>
 
         <!-- 댓글 작성 폼 -->
@@ -67,4 +86,5 @@
         </section>
     </main>
 </body>
+
 </html>
