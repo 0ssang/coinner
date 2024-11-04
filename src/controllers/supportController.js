@@ -1,5 +1,5 @@
-const Support = require('../models/Support'); // 고객센터 모델
-const User = require('../models/User'); // 사용자 모델
+const Support = require('../models/support'); // 고객센터 모델
+const User = require('../models/user'); // 사용자 모델
 
 // 고객센터 게시물 목록
 exports.getSupportList = async (req, res) => {
