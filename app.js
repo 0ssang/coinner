@@ -5,6 +5,8 @@ const postRoutes = require('./src/routes/postRoutes'); // postRoutes 경로 수�
 const homeRoutes = require('./src/routes/homeRoutes');
 const authRoutes = require('./src/routes/authRoutes');
 const methodOverride = require('method-override');
+//고객센터 수정
+const supportRoutes = require('./src/routes/supportRoutes');
 
 // 루트 밑에 config 폴더에 db.js 파일 생성
 const connectDB = require('./config/db');
@@ -24,6 +26,7 @@ app.set('views', path.join(__dirname, 'src', 'views')); // views 폴더 경로 �
 app.use('/', homeRoutes); // 홈페이지 관련 라우터 설정
 app.use('/board', postRoutes); // 게시판 관련 라우터 설정
 app.use('/auth', authRoutes); // 인증/인가 관련 라우터 설정
+app.use('/support', supportRoutes); //고객센터 수정
 
 // DB 연결 완료 후 서버 실행
 (async () => {

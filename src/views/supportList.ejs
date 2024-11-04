@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>고객센터</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">Coinner</div>
+            <ul class="nav-links">
+                <li><a href="/">홈</a></li>
+                <li><a href="/register">회원가입</a></li>
+                <li><a href="/login">로그인</a></li>
+                <li><a href="/support">고객센터</a></li>
+                <li><a href="/board">게시판</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="board-title">
+            <h1>고객센터</h1>
+        </section>
+
+        <section id="board-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>작성일</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% posts.forEach(function(post, index) { %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td>
+                            <a href="/support/<%= post._id %>?author=<%= post.author._id %>">
+                                <%= post.title %>
+                            </a>
+                        </td>
+                        <td><%= post.createdAt.toLocaleDateString() %></td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="create-post-btn">
+            <a href="/support/create" id="create-post-btn">문의 작성</a>
+        </section>
+    </main>
+</body>
+
+</html>

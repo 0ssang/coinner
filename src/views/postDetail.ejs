@@ -1,21 +1,117 @@
 <!DOCTYPE html>
 <html lang="ko">
 
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <%= post.title %>
-    </title>
-    <link rel="stylesheet" href="/css/styles.css">
-    <script src="/js/api.js"></script>
+    <title><%= post.title %></title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- 기존 스타일시트를 그대로 링크 -->
+    <style>
+        /* 페이지 내용 영역의 스타일 */
+        body {
+            padding-top: 70px; /* 헤더 때문에 추가 패딩 */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        main {
+            margin-top: 50px;
+            padding: 20px;
+            max-width: 900px;
+            margin: 50px auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #post-detail h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        #post-detail p {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        #post-detail .content {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            text-align: center;
+        }
+
+        /* 댓글 영역 스타일 */
+        #comments h3 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #comments ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #comments ul li {
+            background-color: #f8f9fa;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        #comments ul li strong {
+            color: #007bff;
+        }
+
+        #comments ul li small {
+            display: block;
+            font-size: 12px;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        /* 댓글 작성 폼 스타일 */
+        #comment-form {
+            margin-top: 40px;
+        }
+
+        #comment-form textarea {
+            width: 96%;
+            padding: 15px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        #comment-form button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        #comment-form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 
 <body>
     <header>
         <nav>
-            <div class="logo">Coinner</div>
+            <div class="logo"><a href="/" class="logo">Coinner</a></div>
             <ul class="nav-links">
                 <li><a href="/">홈</a></li>
                 <li><a href="/register">회원가입</a></li>
@@ -29,69 +125,57 @@
     <main>
         <!-- 게시글 상세 내용 -->
         <section id="post-detail">
-            <h1>
-                <%= post.title %>
-            </h1>
-            <p>작성자: <%= post.author.username %>
-            </p>
-            <p>작성일: <%= post.createdAt.toLocaleDateString() %>
-            </p>
-            <p>
+            <h1><%= post.title %></h1>
+            <p>작성자: <%= post.author.username %></p>
+            <p>작성일: <%= post.createdAt.toLocaleDateString() %></p>
+            <div class="content">
                 <%= post.content %>
-            </p>
+            </div>
         </section>
 
         <!-- 댓글 목록 -->
         <section id="comments">
             <h3>댓글</h3>
-            <% if (post.comments.length> 0) { %>
+            <% if (post.comments.length > 0) { %>
                 <ul>
                     <% post.comments.forEach(function(comment) { %>
                         <li>
-                            <strong>
-                                <%= comment.author.username %>
-                            </strong>: <%= comment.content %> <br>
-                                <small>
-                                    <%= comment.createdAt.toLocaleDateString() %>
-                                </small>
+                            <strong><%= comment.author.username %></strong> <%= comment.content %>
+                            <small>작성일: <%= comment.createdAt.toLocaleDateString() %></small>
 
-                                <!-- 답글 표시 -->
-                                <% if (comment.replies.length> 0) { %>
-                                    <ul>
-                                        <% comment.replies.forEach(function(reply) { %>
-                                            <li>
-                                                <strong>
-                                                    <%= reply.author.username %>
-                                                </strong>: <%= reply.content %> <br>
-                                                    <small>
-                                                        <%= reply.createdAt.toLocaleDateString() %>
-                                                    </small>
-                                            </li>
-                                            <% }) %>
-                                    </ul>
-                                    <% } %>
+                            <!-- 답글 표시 -->
+                            <% if (comment.replies.length > 0) { %>
+                                <ul>
+                                    <% comment.replies.forEach(function(reply) { %>
+                                        <li>
+                                            <strong><%= reply.author.username %></strong> <%= reply.content %>
+                                            <small>작성일: <%= reply.createdAt.toLocaleDateString() %></small>
+                                        </li>
+                                    <% }) %>
+                                </ul>
+                            <% } %>
                         </li>
-                        <% }) %>
+                    <% }) %>
                 </ul>
-                <% } else { %>
-                    <p>댓글이 없습니다.</p>
-                    <% } %>
+            <% } else { %>
+                <p>댓글이 없습니다.</p>
+            <% } %>
         </section>
 
         <!-- 댓글 작성 폼 -->
         <section id="comment-form">
-            <textarea id="commentContent" rows="3" placeholder="댓글을 입력하세요" required></textarea>
-            <button type="button" onclick="submitComment()">댓글 작성</button>
+            <textarea id="commentContent" rows="4" placeholder="댓글을 입력하세요" required></textarea>
+            <button type="button" onclick="submitComment('<%= post._id %>')">댓글 작성</button>
         </section>
     </main>
 
-    <!-- 앞으로 이러한 방식(await axiosInstance.get/post/put/delete )으로 서버에 요청을 보내셈 (ex. 댓글 삭제/수정, 답글 등록/수정/삭제 등...)-->
     <script>
         async function submitComment(postId) {
-            const content = document.getElementById('comment-content').value;
+            const content = document.getElementById('commentContent').value;
 
             try {
                 await axiosInstance.post(`/board/${postId}/comments`, { content });
+                location.reload(); // 댓글 작성 후 새로고침
             } catch (error) {
                 console.error('댓글 작성 중 오류:', error);
                 alert('댓글 작성에 실패했습니다. 잠시 후 다시 시도해주세요.');

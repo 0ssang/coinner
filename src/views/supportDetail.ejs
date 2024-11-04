@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= post.title %></title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">Coinner</div>
+            <ul class="nav-links">
+                <li><a href="/">홈</a></li>
+                <li><a href="/register">회원가입</a></li>
+                <li><a href="/login">로그인</a></li>
+                <li><a href="/support">고객센터</a></li>
+                <li><a href="/board">게시판</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="board-title">
+            <h1><%= post.title %></h1>
+        </section>
+
+        <section id="post-detail">
+            <p>작성자: <%= post.author.username %></p>
+            <p>작성일: <%= post.createdAt.toLocaleDateString() %></p>
+            <p><%= post.content %></p>
+        </section>
+
+        <a href="/support">목록으로 돌아가기</a>
+    </main>
+</body>
+
+</html>

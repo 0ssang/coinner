@@ -53,4 +53,7 @@ UserSchema.methods.comparePassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
 
-module.exports = mongoose.model('User', UserSchema);
+// 모델이 이미 존재하는 경우를 확인
+const User = mongoose.models.User || mongoose.model('User', UserSchema);
+
+module.exports = User;

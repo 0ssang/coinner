@@ -45,7 +45,7 @@ exports.authorizePostOwner = async (req, res, next) => {
     } catch (error) {
         return res.status(500).render('errors/500');
     }
-}
+};
 
 // 댓글 작성자인지 확인하는 미들웨어
 exports.authorizeCommentOwner = async (req, res, next) => {
@@ -91,4 +91,41 @@ exports.authorizeReplyOwner = async (req, res, next) => {
     } catch (error) {
         return res.status(500).render('errors/500');
     }
+};
+
+// 고객센터 게시물 작성자 인증 미들웨어
+exports.authorizeSupportPostOwner = async (req, res, next) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        if (!post) {
+            return res.status(404).render('errors/404', { message: '게시글을 찾을 수 없습니다.' });
+        }
+
+        // 게시글 작성자와 현재 로그인한 사용자의 _id 비교 및 관리자 확인
+        if (post.author.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+            return res.status(403).render('errors/403', { message: '해당 게시글은 작성자와 관리자만 접근할 수 있습니다.' });
+        }
+
+        next();
+    } catch (error) {
+        return res.status(500).render('errors/500');
+    }
+};
+
+// 고객센터 게시물 접근 권한 확인 미들웨어
+exports.checkSupportPostPassword = async (req, res, next) => {
+    const { password } = req.body;
+
+    // 게시글을 조회하여 비밀번호 확인
+    const post = await Post.findById(req.params.id);
+    if (!post) {
+        return res.status(404).render('errors/404', { message: '게시글을 찾을 수 없습니다.' });
+    }
+
+    // 비밀번호가 맞는지 확인
+    if (post.password !== password) {
+        return res.status(403).render('errors/403', { message: '비밀번호가 틀립니다.' });
+    }
+
+    next();
 };
