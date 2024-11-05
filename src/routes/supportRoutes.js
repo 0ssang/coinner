@@ -1,24 +1,23 @@
 const express = require('express');
-const { 
-    getSupportList, 
-    getSupportCreate, 
-    createSupportPost, 
-    getSupportDetail 
-} = require('../controllers/supportController');
-const { authenticate } = require('../middlewares/authMiddleware');
+const supportController = require('../controllers/supportController');
+const { protect } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
-// 고객센터 게시물 목록
-router.get('/', authenticate, getSupportList);
+// Q&A 라우터
+router.get('/qna', supportController);                          // 질문 목록
+router.get('/qna/new', protect, supportController);             // 질문 작성 폼 렌더링
+router.get('/qna/:id', supportController);                      // 질문 내용 & 답변 내용 조회 (axios 요청 - 클라에서 비동기처리)
+router.post('/qna', protect, supportController);                // 질문 등록
+router.delete('/qna/:id', protect, supportController);          // 질문 삭제
+router.post('/qna/:id/answer', protect, supportController);     // 답변 등록 (axios - 클라에서 비동기 요청)
+router.put('/qna/:id/answer', protect, supportController);      // 답변 내용 수정
+router.delete('/qna/:id/answer', protect, supportController);   // 답변 내용 삭제
 
-// 고객센터 문의 작성 페이지
-router.get('/create', authenticate, getSupportCreate);
+// FAQ 라우터
 
-// 고객센터 문의 작성 처리
-router.post('/create', authenticate, createSupportPost);
 
-// 고객센터 게시물 상세보기
-router.get('/:id', authenticate, getSupportDetail);
+// 공지사항 라우터
+
 
 module.exports = router;

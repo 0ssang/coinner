@@ -26,7 +26,7 @@ app.set('views', path.join(__dirname, 'src', 'views')); // views 폴더 경로 �
 app.use('/', homeRoutes); // 홈페이지 관련 라우터 설정
 app.use('/board', postRoutes); // 게시판 관련 라우터 설정
 app.use('/auth', authRoutes); // 인증/인가 관련 라우터 설정
-app.use('/support', supportRoutes); //고객센터 수정
+app.use('/support', supportRoutes); //고객지원 라우터
 
 // DB 연결 완료 후 서버 실행
 (async () => {
