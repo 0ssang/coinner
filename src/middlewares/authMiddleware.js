@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const Post = require('../models/post');
 const Comment = require('../models/comment');
+const Question = require('../models/question');
 
 // 접근 권한이 있는지 확인하는 미들웨어 (Access Token이 있는지 확인)
 exports.protect = async (req, res, next) => {
@@ -112,20 +113,24 @@ exports.authorizeSupportPostOwner = async (req, res, next) => {
     }
 };
 
-// 고객센터 게시물 접근 권한 확인 미들웨어
-exports.checkSupportPostPassword = async (req, res, next) => {
-    const { password } = req.body;
-
-    // 게시글을 조회하여 비밀번호 확인
-    const post = await Post.findById(req.params.id);
-    if (!post) {
-        return res.status(404).render('errors/404', { message: '게시글을 찾을 수 없습니다.' });
+// 질문 작성자 확인 미들웨어
+exports.authorizeQuestionOwner = async (req, res, next) => {
+    try {
+        const question = await Question.findById(req.params.id);
+        if (!question || question.author.toString() !== req.user._id.toString()) {
+            return res.status(403).json({ message: '질문 작성자만 삭제할 수 있습니다.' });
+        }
+        next();
+    } catch (error) {
+        console.error('작성자 확인 오류:', error);
+        res.status(500).json({ message: '권한 확인 중 오류가 발생했습니다.' });
     }
+};
 
-    // 비밀번호가 맞는지 확인
-    if (post.password !== password) {
-        return res.status(403).render('errors/403', { message: '비밀번호가 틀립니다.' });
+// 관리자 권한 확인 미들웨어
+exports.authorizeAdmin = (req, res, next) => {
+    if (req.user.role !== 'admin') {
+        return res.status(403).json({ message: '관리자만 접근할 수 있습니다.' });
     }
-
     next();
 };
