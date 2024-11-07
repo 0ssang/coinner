@@ -1,3 +1,4 @@
+const Faq = require('../models/faq');
 const Question = require('../models/question');
 const mongoose = require('mongoose');
 
@@ -102,5 +103,53 @@ exports.deleteAnswer = async (answerId, authorId) => {
         return result.nModified > 0;
     } catch (error) {
         throw new Error('답변 삭제 중 오류')
+    }
+};
+
+// FAQ
+// 모든 FAQ리스트 반환
+exports.getAllFaqs = async () => {
+    try {
+        return await Faq.find().sort({ createdAt: -1 });
+    } catch (error) {
+        throw new Error('FAQ 항목을 불러오는 중 오류 발생');
+    }
+};
+
+// 특정 FAQ 항목 조회
+exports.getFAQById = async (faqId) => {
+    try {
+        return await FAQ.findById(faqId);
+    } catch (error) {
+        throw new Error('FAQ 조회 중 오류 발생');
+    }
+};
+
+// FAQ생성 (추후 관리자 페이지에서??)
+exports.createFAQ = async (faqData) => {
+    try {
+        const faq = new FAQ(faqData);
+        return await faq.save();
+    } catch (error) {
+        throw new Error('FAQ 생성 중 오류 발생');
+    }
+};
+
+// FAQ 항목 수정 (추후 관리자 페이지에서??)
+exports.updateFAQ = async (faqId, faqData) => {
+    try {
+        return await FAQ.findByIdAndUpdate(faqId, faqData, { new: true });
+    } catch (error) {
+        throw new Error('FAQ 수정 중 오류 발생');
+    }
+};
+
+// FAQ 항목 삭제 (추후 관리자 페이지에서??)
+exports.deleteFAQ = async (faqId) => {
+    try {
+        const result = await FAQ.findByIdAndDelete(faqId);
+        return result != null;
+    } catch (error) {
+        throw new Error('FAQ 삭제 중 오류 발생');
     }
 };
