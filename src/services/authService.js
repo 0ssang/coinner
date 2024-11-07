@@ -103,10 +103,10 @@ exports.login = async (email, password) => {
 
     // Access Token 발급 (1시간)
     const accessToken = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
+    console.log(`AccessToken: ${accessToken}`);
     // Refresh Token 발급 (7일)
     const refreshToken = jwt.sign({ id: user._id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
-
+    console.log(`RefreshToken: ${refreshToken}`);
     user.refreshToken = refreshToken;
     await user.save();
 
