@@ -1,4 +1,4 @@
-const Faq = require('../models/faq');
+const FAQ = require('../models/faq');
 const Question = require('../models/question');
 const mongoose = require('mongoose');
 
@@ -108,9 +108,9 @@ exports.deleteAnswer = async (answerId, authorId) => {
 
 // FAQ
 // 모든 FAQ리스트 반환
-exports.getAllFaqs = async () => {
+exports.getFAQs = async () => {
     try {
-        return await Faq.find().sort({ createdAt: -1 });
+        return await FAQ.find().sort({ createdAt: -1 });
     } catch (error) {
         throw new Error('FAQ 항목을 불러오는 중 오류 발생');
     }

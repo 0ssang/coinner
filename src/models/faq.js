@@ -6,4 +6,4 @@ const FaqSchema = new Schema({
     answer: { type: String, required: true }
 }, { timestamps: true });
 
-module.exports = mongoose.model('Faq', FaqSchema);
+module.exports = mongoose.model('FAQ', FaqSchema);
