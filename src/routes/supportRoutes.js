@@ -15,7 +15,7 @@ router.put('/qna/:id/answer', protect, authorizeAdmin, supportController.updateA
 router.delete('/qna/:id/answer', protect, authorizeAdmin, supportController.deleteAnswer);   // 답변 내용 삭제
 
 // FAQ 라우터
-
+router.get('/faq', supportController.getFAQs);
 
 // 공지사항 라우터
 
