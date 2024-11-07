@@ -108,6 +108,17 @@ exports.deleteAnswer = async (req, res) => {
 };
 
 // FAQ
+// FAQ 목록 페이지
+exports.getFAQs = async (req, res) => {
+    try {
+        const faqs = await supportService.getFAQs();
+        res.render('faq', { faqs });
+    } catch (error) {
+        res.status(500).render('errors/500', { message: 'FAQ 목록을 불러오는 중 오류가 발생했습니다.' });
+    }
+};
+
+// 생성, 수정, 삭제는 관리자 페이지에서 관리하기.....
 
 
 // 공지사항
