@@ -29,13 +29,34 @@
             <p>암호화폐 추적 및 커뮤니티 허브입니다.</p>
         </section>
 
-        <section id="placeholder">
-            <p>이 공간은 나중에 추가될 내용을 위해 마련되었습니다.</p>
-        </section>
+        <!-- TradingView 비트코인 차트 위젯 -->
+<section id="bitcoin-chart">
+    <div class="tradingview-widget-container">
+        <div id="tradingview_btc"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+        <script type="text/javascript">
+            new TradingView.widget({
+                "width": "100%",
+                "height": 550,
+                "symbol": "UPBIT:BTCKRW",
+                "interval": "D",
+                "timezone": "Asia/Seoul",
+                "theme": "dark",
+                "style": "1",
+                "locale": "kr",
+                "toolbar_bg": "#f1f3f6",
+                "enable_publishing": false,
+                "allow_symbol_change": true,
+                "container_id": "tradingview_btc"
+            });
+        </script>
+    </div>
+</section>
+
 
         <section id="features">
             <div class="feature">
-                <h2><a href="/register">회원가입</a></h2>
+                <h2><a href="/auth/signup">회원가입</a></h2>
                 <p>회원으로 가입하여 좋아하는 암호화폐를 추적하고 커뮤니티에 참여하세요.</p>
             </div>
             <div class="feature">

@@ -20,4 +20,5 @@ router.get('/faq', supportController.getFAQs);
 // 공지사항 라우터
 
 
+
 module.exports = router;
