@@ -7,7 +7,7 @@ const Question = require('../models/question');
 // 접근 권한이 있는지 확인하는 미들웨어 (Access Token이 있는지 확인)
 exports.protect = async (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1];
-
+    console.log('Received token:', token);
     if (!token) {
         return res.status(401).json({ message: '로그인이 필요합니다.' });
     }
@@ -15,8 +15,9 @@ exports.protect = async (req, res, next) => {
     try {
         // 토큰 검증 및 사용자 ID 추출
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log('Decoded token:', decoded);
         const user = await User.findById(decoded.id).select('-password'); // password 제외하고 조회
-
+        console.log('Authenticated user:', user);
         if (!user) {
             return res.status(404).render('errors/404', { message: '유효하지 않은 사용자입니다.' });
         }

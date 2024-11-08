@@ -126,14 +126,17 @@ exports.deletePost = async (req, res) => {
 exports.createComment = async (req, res) => {
     const postId = req.params.id;
     const { content } = req.body;
-    const userId = req.user._id; // 임시로 하드코딩 인증기능 구현 후 req.user._id 로 변경
-    try {
-        await postService.createComment(postId, userId, content);
+    const userId = req.user._id;
 
-        res.redirect(`/board/${postId}`);
+    console.log(`요청 데이터 확인: content: ${content} userId: ${userId}`);
+    try {
+        const newComment = await postService.createComment(postId, userId, content);
+
+        // 댓글 생성 성공 시 JSON 응답
+        res.status(201).json({ message: '댓글이 작성되었습니다.', newComment });
     } catch (error) {
         console.error('댓글 작성 중 오류: ', error);
-        res.status(500).render('errors/500');
+        res.status(500).json({ message: '댓글 작성 중 오류가 발생했습니다.' });
     }
 };
 

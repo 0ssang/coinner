@@ -4,12 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= post.title %></title>
+    <title>
+        <%= post.title %>
+    </title>
     <link rel="stylesheet" href="/css/styles.css"> <!-- 기존 스타일시트를 그대로 링크 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/axiosInstance.js"></script>
     <style>
         /* 페이지 내용 영역의 스타일 */
         body {
-            padding-top: 70px; /* 헤더 때문에 추가 패딩 */
+            padding-top: 70px;
+            /* 헤더 때문에 추가 패딩 */
             font-family: Arial, sans-serif;
             margin: 0;
             background-color: #f4f4f4;
@@ -125,9 +130,13 @@
     <main>
         <!-- 게시글 상세 내용 -->
         <section id="post-detail">
-            <h1><%= post.title %></h1>
-            <p>작성자: <%= post.author.username %></p>
-            <p>작성일: <%= post.createdAt.toLocaleDateString() %></p>
+            <h1>
+                <%= post.title %>
+            </h1>
+            <p>작성자: <%= post.author.username %>
+            </p>
+            <p>작성일: <%= post.createdAt.toLocaleDateString() %>
+            </p>
             <div class="content">
                 <%= post.content %>
             </div>
@@ -136,30 +145,36 @@
         <!-- 댓글 목록 -->
         <section id="comments">
             <h3>댓글</h3>
-            <% if (post.comments.length > 0) { %>
+            <% if (post.comments.length> 0) { %>
                 <ul>
                     <% post.comments.forEach(function(comment) { %>
                         <li>
-                            <strong><%= comment.author.username %></strong> <%= comment.content %>
-                            <small>작성일: <%= comment.createdAt.toLocaleDateString() %></small>
+                            <strong>
+                                <%= comment.author.username %>
+                            </strong>
+                            <%= comment.content %>
+                                <small>작성일: <%= comment.createdAt.toLocaleDateString() %></small>
 
-                            <!-- 답글 표시 -->
-                            <% if (comment.replies.length > 0) { %>
-                                <ul>
-                                    <% comment.replies.forEach(function(reply) { %>
-                                        <li>
-                                            <strong><%= reply.author.username %></strong> <%= reply.content %>
-                                            <small>작성일: <%= reply.createdAt.toLocaleDateString() %></small>
-                                        </li>
-                                    <% }) %>
-                                </ul>
-                            <% } %>
+                                <!-- 답글 표시 -->
+                                <% if (comment.replies.length> 0) { %>
+                                    <ul>
+                                        <% comment.replies.forEach(function(reply) { %>
+                                            <li>
+                                                <strong>
+                                                    <%= reply.author.username %>
+                                                </strong>
+                                                <%= reply.content %>
+                                                    <small>작성일: <%= reply.createdAt.toLocaleDateString() %></small>
+                                            </li>
+                                            <% }) %>
+                                    </ul>
+                                    <% } %>
                         </li>
-                    <% }) %>
+                        <% }) %>
                 </ul>
-            <% } else { %>
-                <p>댓글이 없습니다.</p>
-            <% } %>
+                <% } else { %>
+                    <p>댓글이 없습니다.</p>
+                    <% } %>
         </section>
 
         <!-- 댓글 작성 폼 -->
@@ -174,8 +189,15 @@
             const content = document.getElementById('commentContent').value;
 
             try {
-                await axiosInstance.post(`/board/${postId}/comments`, { content });
-                location.reload(); // 댓글 작성 후 새로고침
+                // 댓글 작성 요청
+                const response = await axiosInstance.post(`/board/${postId}/comments`, { content });
+
+                if (response.status === 201) {
+                    // 댓글 작성 성공 시 새로고침
+                    location.reload();
+                } else {
+                    alert('댓글 작성에 실패했습니다.');
+                }
             } catch (error) {
                 console.error('댓글 작성 중 오류:', error);
                 alert('댓글 작성에 실패했습니다. 잠시 후 다시 시도해주세요.');
