@@ -4,6 +4,9 @@ const { protect, authorizeQuestionOwner, authorizeAdmin } = require('../middlewa
 
 const router = express.Router();
 
+// 고객센터 루트페이지
+router.get('/', supportController.renderSupportPage);
+
 // Q&A 라우터
 router.get('/qna', supportController.getQuestions);                          // 질문 목록
 router.get('/qna/new', protect, supportController.renderCreateQuestionPage); // 질문 작성 폼 렌더링
@@ -18,6 +21,7 @@ router.delete('/qna/:id/answer', protect, authorizeAdmin, supportController.dele
 router.get('/faq', supportController.getFAQs);
 
 // 공지사항 라우터
+router.get('/announcement', supportController.getAnnouncements);
 
 
 

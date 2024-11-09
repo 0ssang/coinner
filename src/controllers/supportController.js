@@ -1,5 +1,15 @@
 const supportService = require('../services/supportService');
 
+// 고객센터 루트 페이지 렌더링
+exports.renderSupportPage = async (req, res) => {
+    try {
+        res.render('support');
+    } catch (error) {
+        console.error('고객센터 페이지 렌더링 중 오류 발생:', error);
+        res.status(500).render('errors/500', { message: '페이지를 불러오는 중 오류가 발생했습니다.' });
+    }
+};
+
 // Q&A 목록 조회
 exports.getQuestions = async (req, res) => {
     try {
@@ -25,7 +35,12 @@ exports.fetchQuestionDetail = async (req, res) => {
 
 // 질문 등록 페이지 렌더링
 exports.renderCreateQuestionPage = (req, res) => {
-    res.render('createQuestion');
+    try {
+        res.render('createQuestion');
+    } catch (error) {
+        console.error('문의 작성 페이지 렌더링 중 오류 발생');
+        res.status(500).render('errors/500', { message: '페이지를 불러오는 중 오류가 발생했습니다.' })
+    }
 };
 
 // 질문 등록
